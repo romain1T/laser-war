@@ -10,7 +10,9 @@ export function revenuesView(economy){
 }
 export function destinationChoices(destinations,query=''){
  const term=query.trim().toLocaleLowerCase('fr');
- return destinations.filter(d=>!term||d.name.toLocaleLowerCase('fr').includes(term)).slice(0,15);
+ const matches=destinations.filter(d=>!term||d.name.toLocaleLowerCase('fr').includes(term));
+ if(term)matches.sort((a,b)=>Number(b.name.toLocaleLowerCase('fr')===term)-Number(a.name.toLocaleLowerCase('fr')===term));
+ return matches.slice(0,15);
 }
 export const planetTradeLabel=p=>'<span class="destination-name">'+h(p.name)+'</span><span class="destination-divider" aria-hidden="true">|</span><strong class="available-capacity">+'+Number(p.available||0)+'</strong><span class="destination-divider" aria-hidden="true">|</span><span class="destination-civ">Civ. '+Number(p.civilization||1)+'</span>';
 const destinationOptions=destinations=>destinations.map(d=>'<button class="destination-option" type="button" role="option" aria-selected="false" tabindex="-1" data-destination="'+h(d.id)+'">'+planetTradeLabel(d)+'</button>').join('');
