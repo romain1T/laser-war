@@ -10,4 +10,6 @@ jobs:
           node-version: '24'
       - run: node --check dist/app.js
       - run: node --check dist/domain.js
+      - run: node --check dist/clans.js
+      - run: node --check dist/galaxy.js
       - run: node --test tests/*.test.mjs

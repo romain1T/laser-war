@@ -8,7 +8,7 @@ extra_search_path = ["public", "extensions"]
 [auth]
 enabled = true
 site_url = "http://localhost:4173"
-additional_redirect_urls = ["http://localhost:4173", "https://laser-war-command.romaint133.chatgpt.site"]
+additional_redirect_urls = ["http://localhost:4173", "https://galaxysimulator.win", "https://laser-war-command.romaint133.chatgpt.site"]
 minimum_password_length = 10
 
 [auth.email]

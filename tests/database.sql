@@ -1,4 +1,6 @@
 begin;
+select set_config('qa.worlds_before',(select count(*)::text from public.planets),true);
+select set_config('qa.players_before',(select count(*)::text from public.empires),true);
 insert into auth.users(id,aud,role,email,email_confirmed_at,raw_app_meta_data,raw_user_meta_data)
 values ('00000000-0000-4000-8000-0000000000a1','authenticated','authenticated','qa-alpha-a@example.invalid',now(),'{"provider":"email","providers":["email"]}','{}'),
 ('00000000-0000-4000-8000-0000000000b2','authenticated','authenticated','qa-alpha-b@example.invalid',now(),'{"provider":"email","providers":["email"]}','{}');
@@ -33,8 +35,8 @@ begin
 end $$;
 reset role;
 do $$ begin
- if (select count(*) from public.planets) <> 60 then raise exception 'Incorrect universe expansion'; end if;
- if (select count(*) from public.empires) <> 2 then raise exception 'Incorrect empire count'; end if;
+ if (select count(*) from public.planets) <> current_setting('qa.worlds_before')::int+10 then raise exception 'Incorrect universe expansion'; end if;
+ if (select count(*) from public.empires) <> current_setting('qa.players_before')::int+2 then raise exception 'Incorrect empire count'; end if;
  if has_function_privilege('anon','public.found_empire(text,text,text)','execute') then raise exception 'Anonymous founding allowed'; end if;
 end $$;
 rollback;
