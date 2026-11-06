@@ -17,7 +17,8 @@
 
 ## Limites à ne pas confondre avec une validation
 
-- Une confirmation réelle a été observée, mais la récupération du mot de passe par e-mail n'est pas vérifiée. SMTP pour les inscriptions publiques et redirections hébergées nécessitent la configuration décrite dans le README.
+- Le 6 novembre 2026, le propriétaire confirme avoir enregistré les redirections hébergées et testé avec succès la récupération du mot de passe par e-mail, avec son empire intact. Ce résultat est rapporté par le propriétaire ; l'agent n'a pas manipulé son mot de passe.
+- L'envoi SMTP aux inscriptions publiques reste à configurer et à vérifier avec une adresse extérieure à l'organisation.
 - Le compte QA confirme le parcours API après confirmation ; il ne valide pas l'envoi d'e-mails.
 - Le navigateur local n'a pas pu joindre le serveur de développement. Le contrôle visuel a été réalisé sur la version privée hébergée, après connexion ChatGPT par son propriétaire.
 - Les règles de combat, l'économie et la progression ne font pas partie de cette tranche et n'ont pas été simulées.
