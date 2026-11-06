@@ -13,13 +13,14 @@ test('Nearest list has fifteen entries and named search reaches a distant world'
  assert.match(html,/<strong class="available-capacity">\+5<\/strong>/);
  assert.match(html,/Civ\. 1/);
 });
-test('Capacity blocks retain exact counts at decade boundaries',()=>{
- for(const count of [0,1,9,10,11,19,20,39,100,199,200]){
+test('Capacity blocks retain exact counts at hundred boundaries without visible digits',()=>{
+ for(const count of [0,1,9,10,39,99,100,103,199,200]){
   const html=capacityBlocks(count,'engaged');
   const total=[...html.matchAll(/data-units="(\d+)"/g)].reduce((sum,m)=>sum+Number(m[1]),0);
   assert.equal(total,count);
-  assert.equal((html.match(/class="capacity-block/g)||[]).length,Math.floor(count/10)+count%10);
+  assert.equal((html.match(/class="capacity-block/g)||[]).length,Math.floor(count/100)+count%100);
+  assert.doesNotMatch(html,/>\d+</);
  }
- assert.match(capacityBlocks(10,'free'),/free ten/);
+ assert.match(capacityBlocks(100,'engaged'),/engaged hundred/);
  assert.doesNotMatch(planetTradeLabel({name:'<script>',available:5,civilization:40}),/<script>/);
 });

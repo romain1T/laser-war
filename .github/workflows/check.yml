@@ -13,4 +13,5 @@ jobs:
       - run: node --check dist/clans.js
       - run: node --check dist/galaxy.js
       - run: node --check dist/economy.js
+      - run: node --check dist/art.js
       - run: node --test tests/*.test.mjs

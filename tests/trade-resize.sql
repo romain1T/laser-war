@@ -10,7 +10,7 @@ select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-00000000fa22'
 select public.start_player('QA_Resize_B','QA Resize Horizon');
 select set_config('qa.b',(select id::text from public.planets),true);
 reset role;
-update public.planets set trade_capacity=10 where id in(current_setting('qa.a')::uuid,current_setting('qa.b')::uuid);
+update public.planets set trade_capacity=10,resource=case when id=current_setting('qa.a')::uuid then 'aurite' else 'ferros' end where id in(current_setting('qa.a')::uuid,current_setting('qa.b')::uuid);
 set local role authenticated;
 select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-00000000fa11',true);
 select set_config('qa.link',(public.trade_command('propose',current_setting('qa.a')::uuid,current_setting('qa.b')::uuid,2,null,gen_random_uuid())->>'link_id'),true);
