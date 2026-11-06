@@ -10,12 +10,16 @@
 - Déconnexion réelle du compte QA.
 - CI GitHub du commit initial : succès.
 - Publication privée Sites : succès.
+- Après connexion ChatGPT par le propriétaire : écran de connexion inspecté visuellement, illustration et formulaires correctement affichés. Un compte utilisateur réel a été créé et son adresse confirmée dans Supabase. Le lien de confirmation réutilisé a été refusé ; le message est désormais traduit et explique le retour à la connexion.
+- Parcours réel effectué par le propriétaire : inscription, confirmation, connexion, fondation de l'empire et première planète visible. Rechargement du navigateur : empire, planète, race, ressource et trésorerie conservés. Écrans profil et trésorerie contrôlés.
+- Affichage mobile contrôlé à 390 × 844 : navigation inférieure, illustration, informations et absence de débordement horizontal détecté. Affichage ordinateur rétabli ensuite.
+- Le compte QA, son empire et les cinq mondes qu'il avait générés ont été supprimés avec des gardes sur son identifiant et son marqueur test_only. Aucun compte utilisateur réel n'a été modifié. Les fixtures SQL avaient déjà été annulées par rollback.
 
 ## Limites à ne pas confondre avec une validation
 
-- La réception d'un e-mail de confirmation et de récupération dans une vraie boîte n'est pas vérifiée. SMTP et redirections hébergées nécessitent la configuration décrite dans le README.
+- Une confirmation réelle a été observée, mais la récupération du mot de passe par e-mail n'est pas vérifiée. SMTP pour les inscriptions publiques et redirections hébergées nécessitent la configuration décrite dans le README.
 - Le compte QA confirme le parcours API après confirmation ; il ne valide pas l'envoi d'e-mails.
-- Le navigateur local n'a pas pu joindre le serveur de développement. L'accès au Site privé exige une connexion ChatGPT par son propriétaire ; la vérification visuelle et mobile dépend de cette connexion.
+- Le navigateur local n'a pas pu joindre le serveur de développement. Le contrôle visuel a été réalisé sur la version privée hébergée, après connexion ChatGPT par son propriétaire.
 - Les règles de combat, l'économie et la progression ne font pas partie de cette tranche et n'ont pas été simulées.
 
 ## Audit

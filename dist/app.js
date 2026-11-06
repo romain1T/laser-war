@@ -13,6 +13,7 @@ function errorText(error) {
   const m=error?.message || String(error);
   if (/Invalid login credentials/i.test(m)) return 'Adresse e-mail ou mot de passe incorrect.';
   if (/Email not confirmed/i.test(m)) return 'Confirme ton adresse e-mail avant de te connecter.';
+  if (/Email link is invalid or has expired|Token has expired|otp_expired/i.test(m)) return 'Ce lien a expiré ou a déjà été utilisé. Si vous l’avez déjà ouvert, votre adresse peut être confirmée : revenez à la connexion. Sinon, demandez un nouvel e-mail.';
   if (/rate limit|too many requests/i.test(m)) return 'Trop de tentatives. Patiente quelques minutes avant de réessayer.';
   if (/email address.*invalid|email_address_invalid/i.test(m)) return 'Cette adresse e-mail ne peut pas être utilisée.';
   if (/email.*not authorized|only send.*email|email_address_not_authorized/i.test(m)) return 'L’envoi d’e-mails est encore limité par Supabase. Un service e-mail doit être configuré pour ouvrir les inscriptions à tous.';

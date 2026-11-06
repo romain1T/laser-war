@@ -20,7 +20,7 @@ Migration SQL versionnée dans `supabase/migrations/`. Déjà appliquée au proj
 
 Dans Supabase → Authentication → URL Configuration, définir Site URL sur `https://laser-war-command.romaint133.chatgpt.site` et autoriser cette même URL et `http://localhost:4173` comme redirections. Conserver la confirmation des e-mails. Le connecteur disponible ne permet pas de modifier cette configuration.
 
-Configurer un SMTP adapté avant d'ouvrir les inscriptions à tous : l'envoi par défaut de Supabase peut être limité aux adresses autorisées de l'organisation et limité en fréquence. La réception réelle des e-mails n'a pas été vérifiée sans accès à une boîte destinataire. L'application gère les erreurs d'envoi et permet de coller le lien original reçu par e-mail, sans visiter une redirection localhost. Elle vérifie le token uniquement auprès du projet Supabase attendu.
+Configurer un SMTP adapté avant d'ouvrir les inscriptions à tous : l'envoi par défaut de Supabase peut être limité aux adresses autorisées de l'organisation et limité en fréquence. Un compte réel a été créé et confirmé par le propriétaire lors de la validation ; la récupération du mot de passe par e-mail reste à tester. L'application gère les erreurs d'envoi et permet de coller le lien original reçu par e-mail, sans visiter une redirection localhost. Elle vérifie le token uniquement auprès du projet Supabase attendu.
 
 L'advisor Auth signale que la protection contre les mots de passe compromis n'est pas activée. La config locale recommande au moins 10 caractères ; la configuration hébergée Auth doit être vérifiée séparément. Voir https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection.
 
