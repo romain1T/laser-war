@@ -27,7 +27,7 @@
 6. Combats horaires, débarquement différé, rapports et conquêtes transactionnelles.
 7. Clans, diplomatie et contenus avancés. Forum ultérieur.
 
-Les traitements planifiés seront introduits quand il existe des événements à résoudre. Aucun faux cron ni solde journalier fictif n'est livré.
+Les versements économiques utilisent désormais le cron décrit ci-dessous. Les déplacements et combats attendent leurs moteurs.
 
 ## Économie alpha
 
