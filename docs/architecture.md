@@ -9,6 +9,14 @@
 - Storage : bucket avatars privé, WebP uniquement, maximum 2 Mo. Chemin autorisé uid/avatar.webp. L'image d'entrée est convertie en WebP 256 px côté navigateur. Liens signés de courte durée pour son propre portrait.
 - Date et allocation décidées dans Postgres, jamais avec l'horloge ou les statistiques transmises par le client.
 
+## Clans et carte
+
+`start_player(username, planet_name)` supprime le besoin d'un nom d'empire. L'ancienne RPC reste compatible et ignore désormais le nom transmis ; les anciennes données et trésoreries sont conservées.
+
+`clans` contient uniquement un identifiant, une session, un nom et une date. `private.clan_memberships` n'est ni exposée dans l'API ni accessible aux rôles clients. Les commandes `manage_clan`, `my_clan` et `set_planet_options` passent par des wrappers SECURITY INVOKER puis des fonctions privées à search_path vide, contrôlant auth.uid et la session active. Un verrou de session sérialise les mutations ; les répétitions de création/adhésion sont idempotentes et un départ précise le clan attendu pour éviter qu'une requête ancienne retire un nouveau clan.
+
+`galaxy_signals` est une projection à liste de champs autorisés : id du signal, désignation, coordonnées, nom de clan public éventuel et indication de son propre monde. Aucun owner/player/clan ID, aucune affiliation masquée ni renseignement stratégique. Le SELECT direct des planètes demeure limité à leur propriétaire. Les tags ne modifient jamais le nom enregistré.
+
 ## Découpage suivant
 
 1. Tranche comptes/empire/planète, puis configuration email et tests avec une boîte réelle.

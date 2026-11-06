@@ -10,10 +10,13 @@ export const resources = {
 };
 export const number = value => new Intl.NumberFormat('fr-FR').format(value);
 export const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export function validateFounding({ username, empire, planet }) {
+export function validateFounding({ username, planet }) {
   if (!/^[a-zA-Z0-9_-]{3,24}$/.test(username)) return 'Pseudo : 3 à 24 lettres, chiffres, tirets ou underscores.';
-  if ([empire,planet].some(v => v.trim().length < 3 || v.trim().length > 40)) return 'Les noms doivent contenir 3 à 40 caractères.';
+  if (typeof planet !== 'string' || planet.trim().length < 3 || planet.trim().length > 40) return 'Le nom de la planète doit contenir 3 à 40 caractères.';
   return null;
+}
+export function planetLabel(planet, clan) {
+  return `${planet.name}${planet.clan_tag_visible && clan?.name ? ` [${clan.name}]` : ''}`;
 }
 export function readEmailLink(value) {
   const url = new URL(value);

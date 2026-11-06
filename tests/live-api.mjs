@@ -16,8 +16,8 @@ async function request(path,{method='GET',body,anonymous=false,rawBody=false,hea
 try{
   const login=await request('/auth/v1/token?grant_type=password',{method:'POST',body:{email:credentials.email,password:credentials.password}});
   assert.equal(login.status,200,'Password login');token=login.data.access_token;assert.ok(token);
-  const params={p_username:'QA_Commander',p_empire_name:'Empire de vérification',p_planet_name:'Nova QA'};
-  const found=await Promise.all(Array.from({length:3},()=>request('/rest/v1/rpc/found_empire',{method:'POST',body:params})));
+  const params={p_username:'QA_Commander',p_planet_name:'Nova QA'};
+  const found=await Promise.all(Array.from({length:3},()=>request('/rest/v1/rpc/start_player',{method:'POST',body:params})));
   found.forEach(r=>assert.equal(r.status,200,JSON.stringify(r.data)));assert.equal(new Set(found.map(r=>r.data)).size,1,'Concurrent founding allocated duplicates');
   const empires=await request('/rest/v1/empires?select=*');assert.equal(empires.status,200);assert.equal(empires.data.length,1);assert.equal(empires.data[0].treasury,100000);
   const planets=await request('/rest/v1/planets?select=*');assert.equal(planets.status,200);assert.equal(planets.data.length,1);assert.equal(planets.data[0].name,'Nova QA');
