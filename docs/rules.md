@@ -23,7 +23,7 @@ Les tags sont désactivés par défaut. Afficher le tag montre NomPlanète [NomC
 
 La carte utilise une projection serveur : coordonnées publiques, noms et tags déclarés publics pour les mondes taggés. Sans reconnaissance, les autres mondes sans tag deviennent Signal <serial>, quelle que soit leur propriété réelle. Propriétaire, race, ressource, population et forces restent absents des réponses. Les mondes du joueur restent identifiés pour lui.
 
-La préférence commerciale est enregistrée par planète (auto_trade=true par défaut). Les liaisons, demandes à examiner et calculs de revenus ne sont pas encore actifs : ce réglage prépare leur mode d'acceptation.
+La préférence commerciale est enregistrée par planète (auto_trade=true par défaut). Les liaisons et revenus sont calculés par le serveur.
 
 Les 54 mondes neutres existants ont reçu 5 capacités, 1 scout et 1 soldat, sans modifier leur population ni leur civilisation. Les nouvelles planètes neutres suivent la même initialisation. Une contrainte maintient les capacités neutres à 5 et un trigger refuse leur croissance démographique ou de civilisation. Les planètes possédées par des joueurs ne sont pas affectées. La résolution des pertes en combat sera définie avec le moteur militaire ; aucun recrutement neutre automatique n'est actif.
 
@@ -39,7 +39,7 @@ La session Alpha commence à la migration et se termine un an plus tard. Le serv
 - Aurite : revenus civils et commerce +15 %. Biomasse : soldats +15 %. Ferros : chantiers ×1,15 en vitesse.
 - Matelot est le seul grade affiché ; aucune progression n'est encore définie.
 
-Ces bonus sont des descriptions de règles futures. Ils ne déclenchent aucun calcul inexistant.
+Le bonus Aurite est actif pour les revenus civils et le commerce net. Les bonus militaires, industriels et de croissance attendent leurs moteurs.
 
 ## Confidentialité actuelle
 
@@ -58,4 +58,12 @@ Ces bonus sont des descriptions de règles futures. Ils ne déclenchent aucun ca
 
 Interprétation de « six domaines » dans la page Planètes (la limite d'empire reste 12), valeurs de départ, progression des grades, équations économiques et simulation d'un an. L'arbre Hyperiums est une référence à adapter : bâtiments, noms de races, classes de vaisseaux et protections mentionnées ne constituent pas des règles automatiquement adoptées.
 
-Économie, simulation hors connexion, combats horaires, technologies, énergie utilisable, capitale, liaisons commerciales, reconnaissance, notifications persistantes et forum ne sont pas actifs. Les entrées correspondantes sont annoncées à venir.
+Combats horaires, technologies, énergie utilisable, capitale, reconnaissance, notifications persistantes et forum ne sont pas actifs. Les entrées correspondantes sont annoncées à venir.
+
+## Économie active
+
+Paramètres : voir economy-proposal.md. Revenus aux deux extrémités, bonus locaux. Commerce net décroissant avec la distance : 1 500 − min(distance, 1 000) Þ/capacité/jour avant bonus. Civil : 20 000 Þ/million/jour. Entretien quotidien : soldat 2 Þ, scout 20 Þ, bombardier 60 Þ, chasseur 80 Þ.
+
+Achat jusqu’à 200 capacités selon la courbe validée ; prix serveur et devis périmé refusé. Une demande réserve les deux extrémités pendant 24 heures sans rapporter ; acceptation automatique par défaut, mode manuel par planète. Activer le mode automatique accepte aussi les demandes en attente non expirées. Changer de mode ne ferme pas les liaisons déjà actives. Chaque extrémité peut fermer une liaison.
+
+Versements à 00:00, 08:00 et 16:00 UTC, prorata réel et fractions conservées. L’économie a été activée avec accord explicite du propriétaire le 6 novembre 2026 à 20:53:42 UTC, sans rétroactivité. La trésorerie ne devient pas négative : l’entretien impayé est conservé et remboursé par les revenus suivants.

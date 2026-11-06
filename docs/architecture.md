@@ -28,3 +28,7 @@
 7. Clans, diplomatie et contenus avancés. Forum ultérieur.
 
 Les traitements planifiés seront introduits quand il existe des événements à résoudre. Aucun faux cron ni solde journalier fictif n'est livré.
+
+## Économie alpha
+
+Tables privées economy_clock, trade_links, economy_accruals, economy_ledger et economy_commands, aucun droit direct client. Verrou de session pour achats et réservations, identifiant de commande pour reprise réseau, contrôle de devis dans purchase_capacities. Accrual en secondes, fractions conservées, registre unique par planète et échéance. Cron laser-war-economy chaque minute et rattrapage lors des RPC. Versements à 00, 08 et 16 heures UTC ; entretien impayé conservé en dette. Prévisions et historique réservés au propriétaire. Destinations issues de galaxy_signals sans données stratégiques adverses.

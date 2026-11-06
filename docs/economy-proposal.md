@@ -1,6 +1,6 @@
-# Proposition d'équilibrage commercial
+# Économie alpha — courbe validée
 
-Document de simulation : aucune formule ci-dessous n'est activée dans le jeu. La répartition des revenus entre les deux extrémités reste à valider.
+Paramètres validés : revenus aux deux extrémités, chacun avec ses bonus locaux.
 
 ## Règles déjà fixées
 
@@ -9,9 +9,9 @@ Document de simulation : aucune formule ci-dessous n'est activée dans le jeu. L
 - Commerce avec toute planète ; acceptation automatique par défaut, option manuelle par planète.
 - Monde neutre : 5 capacités fixes, population et civilisation fixes, 1 scout et 1 soldat.
 
-## Courbe de coût proposée
+## Courbe de coût validée
 
-Référence R = 1 000 Þ par capacité occupée et par jour. Cette valeur sert à mettre les prix à l'échelle ; ce n'est pas encore un revenu validé.
+Référence R = 1 000 Þ par capacité occupée et par jour. Cette valeur sert à mettre les prix à l'échelle ; c’est le revenu net pour une distance de 500.
 
 Pour la n-ième capacité, le coût est arrondi(R × T(n)). Avec x=(n−20)/30 :
 
@@ -42,10 +42,23 @@ L'amortissement cumulé divise le coût de toutes les capacités par le revenu d
 | Aurite, 100 % occupé | 52,17 jours |
 | Revenu ×1,5 et Aurite, 100 % occupé | 34,78 jours |
 
-À la référence, 12 planètes de 200 capacités toutes occupées représentent 2,4 millions de Þ par jour, ou 2,76 millions avec Aurite partout. Cela suppose des partenaires suffisants et ne déduit pas l'entretien. Une liaison interne à deux planètes du joueur consomme bien deux ensembles de capacités ; la répartition de ses revenus reste à décider.
+À la référence, 12 planètes de 200 capacités toutes occupées représentent 2,4 millions de Þ par jour, ou 2,76 millions avec Aurite partout. Cela suppose des partenaires suffisants et ne déduit pas l'entretien. Une liaison interne à deux planètes du joueur consomme bien deux ensembles de capacités ; chaque planète reçoit son revenu local.
 
 Les 54 mondes neutres actuels offrent au maximum 270 capacités d'accueil, partagées entre tous les joueurs. Ils ne peuvent donc pas suffire seuls à remplir douze mondes de 200 capacités. Les liaisons entre joueurs ou entre ses propres mondes seront importantes.
 
-## Décisions encore nécessaires
+## Revenus et entretien validés
 
-Répartition bilatérale des revenus, formule de distance, revenus civils et entretien des unités. Une simulation de réinvestissement sur 365 jours sera ajoutée quand ces paramètres seront validés. Aucun solde ni versement n'est appliqué au compte existant.
+Commerce brut : 1 500 Þ/capacité/jour. Entretien : min(distance, 1 000) Þ/capacité/jour. Net de 1 500 à 500 Þ : il diminue avec la distance. Aurite multiplie ce net par 1,15. Revenus civils : 20 000 Þ par million d’habitants/jour, bonus Aurite de 15 %. Entretien journalier : soldat 2 Þ ; scout 20 Þ ; bombardier 60 Þ ; chasseur 80 Þ. Versements à 00:00, 08:00 et 16:00 UTC. Fractions reportées, calcul au temps réel, aucun revenu avant activation.
+
+## Réinvestissement sur 365 jours
+
+Un monde, 100 000 Þ initiaux, 1 million d’habitants fixes, 100 soldats, aucun vaisseau. Achat maximal à t=0 puis après chaque versement ; pleine occupation immédiate, partenaires disponibles, distance constante, aucun autre achat. Simulation en nombres réels (écart d’arrondi de quelques Þ possible). Ce scénario ne prédit pas les gains réels avec concurrence et capacités limitées.
+
+| Distance | Bonus | Jour rang 50 | Jour rang 100 | Jour rang 200 | Solde jour 365 Þ |
+|---|---|---:|---:|---:|---:|
+| 100 | 1 | 2.00 | 10.00 | 28.33 | 100977494 |
+| 100 | 1.15 | 1.67 | 8.67 | 24.67 | 117391784 |
+| 500 | 1 | 2.33 | 13.00 | 37.67 | 71969694 |
+| 500 | 1.15 | 2.00 | 11.33 | 33.00 | 84005827 |
+| 900 | 1 | 3.33 | 18.67 | 56.67 | 43112494 |
+| 900 | 1.15 | 3.00 | 16.33 | 49.33 | 50774814 |
