@@ -10,6 +10,9 @@ test('Every world displays civilization, tagged worlds alone display clan rings 
  assert.match(html,/--clan-color:#aaccee/);
  assert.match(html,/<dt>Race<\/dt>/);assert.match(html,/>Khar<\/dd>/);
  assert.match(html,/>Ferros<\/dd>/);assert.match(html,/<span class="civilization-value">40<\/span>/);
+ assert.doesNotMatch(html,/<small>\/ 40<\/small>/);
+ assert.match(html,/assets\/art\/civilization\.webp/);
+ assert.doesNotMatch(galaxyBackground(),/class="galaxy-arm/);
  assert.equal(clanColor({...signals[0],clan_name:null}),null);
  assert.equal(clanColor({...signals[0],clan_color:'red;display:none'}),null);
  assert.equal(galaxyBackground(),galaxyBackground());

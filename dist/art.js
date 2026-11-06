@@ -10,3 +10,4 @@ export function badge(kind,key,className='art-badge'){
  const name=key.charAt(0).toUpperCase()+key.slice(1);
  return `<img class="${h(className)}" src="/assets/art/${kind}_${key}.webp" alt="${name}" title="${name}" width="32" height="32" loading="lazy">`;
 }
+export const civilizationBadge=()=>'<img class="art-badge civilization-badge" src="/assets/art/civilization.webp" alt="Civilisation" width="30" height="30" loading="lazy">';

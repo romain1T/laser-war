@@ -15,6 +15,12 @@ for original in sorted(source.glob('*.png')):
     image = Image.open(original).convert('RGBA')
     if name == 'logo':
         variants = [(output / 'logo.webp', (768, 420))]
+    elif name == 'civilization':
+        # The supplied civilization icon has substantial transparent padding.
+        bounds = image.getchannel('A').getbbox()
+        if bounds:
+            image = image.crop(bounds)
+        variants = [(output / 'civilization.webp', (160, 160))]
     elif name.startswith(('race_', 'resource_')):
         variants = [(output / (name + '.webp'), (160, 160))]
     else:
