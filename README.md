@@ -14,11 +14,15 @@ Migration SQL versionnée dans `supabase/migrations/`. Déjà appliquée au proj
 
 `tests/database.sql` teste l'isolation de deux joueurs, les écritures refusées, l'unicité des pseudos, l'expansion de l'univers et l'idempotence. Les données de test restent dans une transaction annulée. Aucun compte de démonstration permanent n'est livré.
 
+`tests/live-api.mjs` vérifie un compte QA confirmé et jetable via l'API réelle : connexion, trois fondations simultanées, lecture persistante, écritures interdites, stockage privé et déconnexion. Les identifiants sont reçus sur stdin masqué et restent en mémoire. Ce test ne doit être lancé que contre un environnement de test avec un compte explicitement jetable.
+
 ## E-mails : configuration hébergée
 
 Dans Supabase → Authentication → URL Configuration, définir Site URL sur `https://laser-war-command.romaint133.chatgpt.site` et autoriser cette même URL et `http://localhost:4173` comme redirections. Conserver la confirmation des e-mails. Le connecteur disponible ne permet pas de modifier cette configuration.
 
 Configurer un SMTP adapté avant d'ouvrir les inscriptions à tous : l'envoi par défaut de Supabase peut être limité aux adresses autorisées de l'organisation et limité en fréquence. La réception réelle des e-mails n'a pas été vérifiée sans accès à une boîte destinataire. L'application gère les erreurs d'envoi et permet de coller le lien original reçu par e-mail, sans visiter une redirection localhost. Elle vérifie le token uniquement auprès du projet Supabase attendu.
+
+L'advisor Auth signale que la protection contre les mots de passe compromis n'est pas activée. La config locale recommande au moins 10 caractères ; la configuration hébergée Auth doit être vérifiée séparément. Voir https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection.
 
 ## Hébergement et sources
 
