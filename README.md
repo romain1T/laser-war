@@ -20,16 +20,16 @@ Migration SQL versionnée dans `supabase/migrations/`. Déjà appliquée au proj
 
 ## E-mails : configuration hébergée
 
-Dans Supabase → Authentication → URL Configuration, définir Site URL sur `https://laser-war-command.romaint133.chatgpt.site` et autoriser cette même URL et `http://localhost:4173` comme redirections. Conserver la confirmation des e-mails. Le connecteur disponible ne permet pas de modifier cette configuration.
+Dans Supabase → Authentication → URL Configuration, définir Site URL sur `https://galaxysimulator.win` et autoriser cette même URL, `https://laser-war-command.romaint133.chatgpt.site` et `http://localhost:4173` comme redirections. Conserver la confirmation des e-mails. Le connecteur disponible ne permet pas de modifier cette configuration.
 
 Le propriétaire confirme le 6 novembre 2026 avoir enregistré ces redirections et testé avec succès la récupération du mot de passe par e-mail, sans perte de son empire.
 
-Configurer un SMTP adapté avant d'ouvrir les inscriptions à tous : l'envoi par défaut de Supabase peut être limité aux adresses autorisées de l'organisation et limité en fréquence. L'envoi aux adresses extérieures reste à vérifier après cette configuration. L'application gère les erreurs d'envoi et permet aussi de coller le lien original reçu par e-mail. Elle vérifie le token uniquement auprès du projet Supabase attendu.
+Le propriétaire indique avoir configuré Resend pour `auth.galaxysimulator.win` et ses identifiants SMTP dans Supabase. Les DNS d'envoi sont visibles publiquement ; une inscription extérieure et sa livraison restent à vérifier. L'application gère les erreurs d'envoi et permet aussi de coller le lien original reçu par e-mail. Elle vérifie le token uniquement auprès du projet Supabase attendu.
 
 L'advisor Auth signale que la protection contre les mots de passe compromis n'est pas activée. La config locale recommande au moins 10 caractères ; la configuration hébergée Auth doit être vérifiée séparément. Voir https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection.
 
 ## Hébergement et sources
 
-Le dossier `dist/` est statique et peut être hébergé indépendamment. Le Site privé est déclaré dans `.openai/hosting.json`. GitHub conserve le code, les migrations et la documentation ; l'hébergement Sites utilise une copie de source synchronisée. L'alpha privée n'est pas encore ouverte au public.
+Le dossier `dist/` est statique et peut être hébergé indépendamment. Le Site est déclaré dans `.openai/hosting.json`. GitHub conserve le code, les migrations et la documentation ; l'hébergement Sites utilise une copie de source synchronisée. L'alpha est publique sur `https://galaxysimulator.win`, avec connexion Supabase obligatoire pour accéder aux données du jeu. Le domaine et HTTPS sont actifs ; l'ancienne adresse chatgpt.site reste utilisable.
 
 Voir [règles](docs/rules.md), [architecture](docs/architecture.md) et [master prompt](docs/master-prompt.md).
