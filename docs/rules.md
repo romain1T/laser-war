@@ -67,3 +67,11 @@ Paramètres : voir economy-proposal.md. Revenus aux deux extrémités, bonus loc
 Achat jusqu’à 200 capacités selon la courbe validée ; prix serveur et devis périmé refusé. Une demande réserve les deux extrémités pendant 24 heures sans rapporter ; acceptation automatique par défaut, mode manuel par planète. Activer le mode automatique accepte aussi les demandes en attente non expirées. Changer de mode ne ferme pas les liaisons déjà actives. Chaque extrémité peut fermer une liaison.
 
 Versements à 00:00, 08:00 et 16:00 UTC, prorata réel et fractions conservées. L’économie a été activée avec accord explicite du propriétaire le 6 novembre 2026 à 20:53:42 UTC, sans rétroactivité. La trésorerie ne devient pas négative : l’entretien impayé est conservé et remboursé par les revenus suivants.
+
+## Civilisation et présentation commerciale
+
+Départ au niveau 1, plafond 40. Le bonus commercial local validé est 1 + 0,05 × (niveau − 1), appliqué après entretien de distance, puis multiplié par Aurite si présent. Les mondes neutres restent fixes. Les niveaux de civilisation sont publics dans les échanges, avec le nom et les capacités libres ; les données militaires et le propriétaire restent privés.
+
+Les barres distinguent les capacités de notre liaison des capacités libres, pour chaque extrémité. Un petit bloc vaut une unité ; un bloc de couleur différente marqué 10 représente une dizaine. Elles ne montrent pas la répartition des autres relations du partenaire.
+
+Le quatrième mois est une cible indicative pour le niveau 40, sans verrou calendaire. La proposition de progression, ses coûts et simulations sont dans civilization-balance.md ; les commandes d’investissement et l’assimilation ne sont pas encore développées.
