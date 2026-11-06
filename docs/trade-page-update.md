@@ -1,0 +1,9 @@
+# Commerce — sélection et modification des liaisons
+
+La liste initiale affiche les quinze destinations les plus proches du monde sélectionné, y compris celles sans capacité libre. Chaque option contient uniquement le nom et la disponibilité préfixée par +. La recherche par nom, insensible à la casse, porte sur toutes les destinations et affiche au plus quinze résultats, toujours dans l’ordre de proximité. Le nom des planètes et leurs capacités libres deviennent publics dans le contexte commercial ; propriétaires, ressources, population, civilisation et forces restent privés. La projection de la carte est inchangée.
+
+Une liaison active peut augmenter ou diminuer sa quantité. L’augmentation est immédiate lorsque le partenaire accepte automatiquement ; sinon seules les capacités supplémentaires sont réservées aux deux extrémités pendant 24 heures. La liaison initiale continue de rapporter. Le destinataire peut accepter ou refuser cet ajout, son émetteur le retirer. Une diminution est immédiate pour chaque extrémité et annule un ajout encore en attente ; retirer toute la quantité ferme la liaison. Les disponibilités sont recalculées par le serveur à chaque commande.
+
+La RPC resize_trade utilise le verrou de session et le registre de commandes existants. Elle vérifie le propriétaire, la quantité attendue de la liaison, les capacités partagées et les droits de décision. Elle comptabilise les revenus écoulés avant chaque modification. Les nouvelles réservations privées ne rapportent rien. Les reprises réseau rejouent le résultat enregistré ; les devis devenus anciens sont refusés.
+
+Vérification : tests SQL en rollback sur deux participations fictives (augmentation automatique et manuelle, répétition, disponibilité, réservations, acceptation, réduction, devis ancien et fermeture). Cinq tests Node passent, dont sélection des quinze voisines et recherche d’un monde distant. Aucun compte QA persistant créé pour ces tests.

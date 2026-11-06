@@ -2,7 +2,7 @@ import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
 import { races, resources, number, escapeHtml as h, validateFounding, readEmailLink, planetLabel } from './domain.js';
 import { clanPanel, planetOptions } from './clans.js';
 import { galaxyView } from './galaxy.js';
-import { revenuesView, tradeView, updateTradeEstimates } from './economy.js';
+import { revenuesView, tradeView, updateTradeEstimates, filterTradeDestinations } from './economy.js';
 
 // The locally vendored official client is loaded before this module.
 const { createClient } = window.supabase;
@@ -24,9 +24,8 @@ function errorText(error) {
   return m;
 }
 function showError(form,error) { const el=form.querySelector('.form-error'); el.textContent=errorText(error); el.hidden=false; }
-async function submit(form,action) {
-  const button=form.querySelector('[type=submit]');
-  if(button.disabled) return;
+async function submit(form,action,button=form.querySelector('[type=submit]')) {
+  if(button.disabled || form.getAttribute('aria-busy')==='true') return;
   button.disabled=true; form.setAttribute('aria-busy','true'); form.querySelector('.form-error').hidden=true;
   try { await action(new FormData(form)); } catch(error) { showError(form,error); }
   finally { button.disabled=false; form.removeAttribute('aria-busy'); }
@@ -146,9 +145,10 @@ async function sendEconomicCommand(params,stored){
   const key='lw-economic-command:'+state.user.id;let pending=stored||pendingEconomicCommand();
   if(pending&&JSON.stringify(pending.params)!==JSON.stringify(params))throw Error('Reprenez d’abord la commande interrompue avec le bouton prévu.');
   if(!pending)pending={id:crypto.randomUUID(),params};sessionStorage.setItem(key,JSON.stringify(pending));
-  const purchase=params.p_action==='buy';
-  const args=purchase?{p_planet_id:params.p_planet_id,p_quantity:params.p_quantity,p_expected_capacity:params.expected_capacity,p_request_id:pending.id}:{...params,p_request_id:pending.id};
-  const {data,error}=await db.rpc(purchase?'purchase_capacities':'trade_command',args);
+  const purchase=params.p_action==='buy',resize=params.resize===true;
+  const {resize:omitResize,...command}=params;
+  const args=purchase?{p_planet_id:params.p_planet_id,p_quantity:params.p_quantity,p_expected_capacity:params.expected_capacity,p_request_id:pending.id}:{...command,p_request_id:pending.id};
+  const {data,error}=await db.rpc(purchase?'purchase_capacities':resize?'resize_trade':'trade_command',args);
   if(error){if(error.code)sessionStorage.removeItem(key);throw error;}
   sessionStorage.removeItem(key);return data;
 }
@@ -156,6 +156,16 @@ function bindTrade(){
   const data=state.tradeData;if(!data)return;
   document.querySelector('#trade-world').onchange=e=>openTrade(e.target.value);
   updateTradeEstimates(data,state.empire.treasury);
+  document.querySelector('#trade-search').addEventListener('input',()=>{filterTradeDestinations(data);updateTradeEstimates(data,state.empire.treasury);});
+  document.querySelectorAll('[data-resize-form]').forEach(form=>form.addEventListener('submit',event=>{
+    event.preventDefault();const action=event.submitter?.value;if(!action)return;
+    const link=data.links.find(l=>l.id===form.dataset.resizeForm);
+    submit(form,async f=>{const result=await sendEconomicCommand({resize:true,p_action:action,p_planet_id:data.planet.id,p_link_id:link.id,p_quantity:Number(f.get('quantity')),p_expected_quantity:link.quantity});await loadPlayer();toast(result.status==='pending_increase'?'Ajout proposé. La liaison existante reste active.':'Capacités de la liaison mises à jour.');},event.submitter);
+  }));
+  document.querySelectorAll('[data-resize-action]').forEach(button=>button.onclick=async()=>{
+    const link=data.links.find(l=>l.id===button.dataset.link);button.disabled=true;
+    try{await sendEconomicCommand({resize:true,p_action:button.dataset.resizeAction,p_planet_id:data.planet.id,p_link_id:link.id,p_quantity:link.increase.quantity,p_expected_quantity:link.quantity});await loadPlayer();toast('Demande d’ajout mise à jour.');}catch(error){toast(errorText(error));}finally{button.disabled=false;}
+  });
   document.querySelector('#buy-capacities')?.addEventListener('input',()=>updateTradeEstimates(data,state.empire.treasury));
   document.querySelector('#propose-trade')?.addEventListener('input',()=>updateTradeEstimates(data,state.empire.treasury));
   document.querySelector('#buy-capacities')?.addEventListener('submit',e=>{e.preventDefault();submit(e.currentTarget,async f=>{
