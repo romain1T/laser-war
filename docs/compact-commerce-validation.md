@@ -1,0 +1,11 @@
+# Commerce compact et civilisation — vérification
+
+Publication Sites version 8, source ac6b5c054d0a1dfb3a58fc9e279c98510094c894. La sélection personnalisée permet de styliser séparément le nom, les capacités libres et la civilisation, avec séparateurs. Disponibilité vérifiée en rgb(114,220,159), graisse 800. Liste initiale de quinze destinations ; recherche au clavier via flèche bas puis Entrée, sélection et fermeture, retour du focus. Le nom exact est prioritaire sur les correspondances partielles pour ne pas être exclu d’une liste de quinze résultats.
+
+Les rectangles distinguent la relation active et les capacités libres pour chacune des deux extrémités. Décomposition testée aux seuils 0/1/9/10/11/19/20/39/100/199/200 ; les dizaines sont marquées 10 et d’une couleur distincte. Exemple réel QA : 3 capacités engagées, 36 libres sur le monde du joueur (trois blocs 10 et six unités libres), 2 libres chez le partenaire. Ajout d’une unité : 4 engagées, 35 et 1 libres ; retrait : retour à 3/36/2. Prévisions actualisées avec les changements.
+
+SQL en rollback : bonus locaux de civilisation, Aurite, correspondance entre prévisions et taux comptables, plafond 40, droits refusés sur la fonction privée ; tests de modification de liaison repassés. Toutes les planètes réelles étaient déjà au niveau 1 avant la migration, aucune réinitialisation de joueur. La civilisation est affichée dans le contexte commercial ; le propriétaire et les forces adverses restent absents.
+
+Six tests Node passent. Navigateur vérifié sur ordinateur et à 390 × 844, largeur du document 375 px sans débordement horizontal. Les deux barres et les commandes restent visibles sur mobile. Viewport rétabli et compte QA déconnecté. La fixture UI, sa participation, ses cinq mondes et sa liaison ont été supprimés avec garde sur l’identité et les marqueurs de test.
+
+L’investissement en civilisation reste une proposition dans docs/civilization-balance.md. Le modèle final utilise un exposant de 0,85 : environ 48,6 millions Þ au total et 117 jours d’assimilation minimum, sans verrou de calendrier. Les 174 millions de la première simulation rendaient les derniers niveaux non amortissables sur une session ; cette version a été écartée. La simulation ne représente pas encore une partie complète avec conquêtes, concurrence, production et combat.

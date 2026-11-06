@@ -10,15 +10,17 @@ Pour q capacités et une distance d : net commercial = q × (1 500 − min(d,1 0
 
 Le quatrième mois est un objectif, sans verrou de calendrier. Proposition reprenant les trois jours d’assimilation du master prompt : chaque niveau exige trois jours réels, séquentiels, sans accélération payante. Passer de 1 à 40 demande au minimum 117 jours d’assimilation si tous les investissements sont disponibles immédiatement. L’investissement n’accorde pas instantanément le niveau. Les neutres ne progressent pas.
 
-Coût pour atteindre le niveau n : arrondi(100 000 × (n − 1)^1,25). Le niveau 2 conserve le coût initial de 100 000 Þ. Pas de remise rétroactive ni de coût relatif au revenu du joueur. Coût total 1 → 40 : 173 826 548 Þ ; dernier niveau : 9 746 098 Þ. Le bonus marginal reste +5 points du rendement niveau 1 : les prix croissent sans emballement exponentiel des revenus.
+Coût pour atteindre le niveau n : arrondi(100 000 × (n − 1)^0,85). Le niveau 2 conserve le coût initial de 100 000 Þ. Pas de remise rétroactive ni de coût relatif au revenu du joueur. Coût total 1 → 40 : 48 575 272 Þ ; dernier niveau : 2 251 152 Þ. Le bonus marginal reste +5 points du rendement niveau 1 : les prix croissent sans emballement exponentiel des revenus.
 
 | Niveau atteint | Coût du niveau Þ | Bonus commercial | Assimilation cumulée minimale |
 |---|---:|---:|---:|
 | 2 | 100000 | ×1.05 | 3 jours |
-| 10 | 1558846 | ×1.45 | 27 jours |
-| 20 | 3966815 | ×1.95 | 57 jours |
-| 30 | 6729728 | ×2.45 | 87 jours |
-| 40 | 9746098 | ×2.95 | 117 jours |
+| 10 | 647301 | ×1.45 | 27 jours |
+| 20 | 1221632 | ×1.95 | 57 jours |
+| 30 | 1750001 | ×2.45 | 87 jours |
+| 40 | 2251152 | ×2.95 | 117 jours |
+
+Le dernier niveau ajoute 10 000 Þ/jour à un monde de 200 capacités occupées à distance 500, avant Aurite. Son amortissement marginal de référence est donc de 225.1 jours. Un niveau 40 obtenu au jour 117 peut encore être amorti avant la fin d’une session d’un an dans ce scénario ; une occupation faible ou une longue distance peut le rendre non rentable. Le coût total des seuls niveaux de civilisation pour douze mondes atteint 582 903 264 Þ.
 
 ## Sensibilité et budgets
 
@@ -26,11 +28,11 @@ Scénarios avec N mondes possédant déjà chacun 200 capacités toutes occupée
 
 | Mondes financés | Distance | Budget civilisation | Jour niveau 20 | Jour niveau 40 | Niveau au jour 365 |
 |---|---:|---:|---:|---:|---:|
-| 1 | 500 | 55.00000000000001 % | 195 | — | 28 |
-| 4 | 500 | 55.00000000000001 % | 69 | 283.33 | 40 |
+| 1 | 500 | 55.00000000000001 % | 77.33 | 205.33 | 40 |
+| 4 | 500 | 55.00000000000001 % | 57 | 117 | 40 |
 | 12 | 500 | 55.00000000000001 % | 57 | 117 | 40 |
 | 12 | 100 | 55.00000000000001 % | 57 | 117 | 40 |
-| 12 | 900 | 55.00000000000001 % | 57 | 177 | 40 |
+| 12 | 900 | 55.00000000000001 % | 57 | 117 | 40 |
 | 12 | 500 | 100 % | 57 | 117 | 40 |
 
 L’assimilation fournit un plancher temporel, l’argent fournit une contrainte supplémentaire. Développer les autres mondes, une flotte ou des technologies entre en concurrence avec cet investissement. Un joueur concentrant tous ses revenus constitue un scénario de contrôle, pas le budget recommandé.
