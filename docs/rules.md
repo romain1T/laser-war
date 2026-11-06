@@ -11,6 +11,7 @@
 - Aucun nom d'empire à choisir : le joueur nomme sa planète d'origine.
 - Commerce possible avec toute planète, sans restriction de clan ou de propriétaire. Acceptation automatique activée par défaut ; mode manuel pour examiner les demandes avant de les accepter.
 - Création ou adhésion à un clan ; chaque planète peut afficher ou masquer individuellement son affiliation.
+- Planètes neutres : 5 capacités commerciales qui ne croissent jamais, population et civilisation fixes, garnison de départ de 1 scout et 1 soldat.
 
 ## Implémentées dans cette tranche
 
@@ -23,6 +24,8 @@ Les tags sont désactivés par défaut. Afficher le tag montre NomPlanète [NomC
 La carte utilise une projection serveur : coordonnées publiques, noms et tags déclarés publics pour les mondes taggés. Sans reconnaissance, les autres mondes sans tag deviennent Signal <serial>, quelle que soit leur propriété réelle. Propriétaire, race, ressource, population et forces restent absents des réponses. Les mondes du joueur restent identifiés pour lui.
 
 La préférence commerciale est enregistrée par planète (auto_trade=true par défaut). Les liaisons, demandes à examiner et calculs de revenus ne sont pas encore actifs : ce réglage prépare leur mode d'acceptation.
+
+Les 54 mondes neutres existants ont reçu 5 capacités, 1 scout et 1 soldat, sans modifier leur population ni leur civilisation. Les nouvelles planètes neutres suivent la même initialisation. Une contrainte maintient les capacités neutres à 5 et un trigger refuse leur croissance démographique ou de civilisation. Les planètes possédées par des joueurs ne sont pas affectées. La résolution des pertes en combat sera définie avec le moteur militaire ; aucun recrutement neutre automatique n'est actif.
 
 Le pseudo est demandé à l'inscription mais son unicité insensible à la casse est réservée à la fondation. Une collision est signalée et un autre pseudo peut être choisi avant de fonder l'empire. À la fondation, le nom de planète est consommé ; aucun renommage direct n'est autorisé.
 
