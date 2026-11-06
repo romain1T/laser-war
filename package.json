@@ -1,0 +1,13 @@
+{
+  "name": "laser-war",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check dist/app.js"
+  },
+  "engines": { "node": ">=22" },
+  "dependencies": { "@supabase/supabase-js": "2.119.0" }
+}
