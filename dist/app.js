@@ -200,7 +200,6 @@ function savePlanetOptions(e){e.preventDefault();const form=e.currentTarget;cons
 });}
 function bindMap(){
   document.querySelectorAll('[data-signal]').forEach(el=>el.onclick=()=>{state.selectedSignal=el.dataset.signal;renderGame();});
-  document.querySelector('#signal-select').onchange=e=>{state.selectedSignal=e.target.value;renderGame();};
   document.querySelectorAll('[data-zoom]').forEach(b=>b.onclick=()=>{state.mapZoom=Math.min(3,Math.max(1,state.mapZoom+Number(b.dataset.zoom)*.5));renderGame();});
   document.querySelector('[data-open-planet]')?.addEventListener('click',e=>{const index=state.planets.findIndex(p=>p.id===e.currentTarget.dataset.openPlanet);if(index>=0){state.active=index;state.page='planets';renderGame();}});
 }
