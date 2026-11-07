@@ -1,7 +1,7 @@
 import {forumView,messagesView,signatureView,bindSocial,loadSocialAvatars} from './social.js';
 import {compactPopulation,planetManagementSections,bindPlanetCapacityQuotes} from './planets.js';
 import {civilizationView,civilizationInvestmentView,rankProgressView,bindCivilizationQuotes,progressionHelp} from './progression.js';
-import {militaryView,bindAssembly,missionView,bindMissionDestinations,foreignPresenceView,battleReportsView,militaryHelp,timeLeft} from './military.js';
+import {militaryView,bindAssembly,missionView,bindMissionDestinations,foreignPresenceView,battleReportsView,commercialNotificationsView,militaryHelp,timeLeft} from './military.js';
 import {badge,planetArt,civilizationBadge} from './art.js';
 import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
 import { races, resources, number, escapeHtml as h, validateFounding, readEmailLink, planetLabel } from './domain.js';
@@ -214,7 +214,7 @@ function bindMap(){
   document.querySelectorAll('[data-zoom]').forEach(b=>b.onclick=()=>{state.mapZoom=Math.min(3,Math.max(1,state.mapZoom+Number(b.dataset.zoom)*.5));renderGame();});
   document.querySelector('[data-open-planet]')?.addEventListener('click',e=>{const index=state.planets.findIndex(p=>p.id===e.currentTarget.dataset.openPlanet);if(index>=0){state.active=index;state.page='planets';renderGame();}});
 }
-function alertsView(){return pageHeader('TRANSMISSIONS','Notifications & rapports')+battleReportsView(state.military,state.readSnapshot?.alert_ids||state.unread?.alert_ids||[]);}
+function alertsView(){return pageHeader('TRANSMISSIONS','Notifications & rapports')+commercialNotificationsView(state.military,state.readSnapshot?.alert_ids||state.unread?.alert_ids||[])+battleReportsView(state.military,state.readSnapshot?.alert_ids||state.unread?.alert_ids||[]);}
 function pendingMilitaryCommand(){try{return JSON.parse(sessionStorage.getItem('lw-military-command:'+state.user.id)||'null');}catch{return null;}}
 async function sendMilitaryCommand(action,args,existing){
  const key='lw-military-command:'+state.user.id,payload={action,args};let pending=existing||pendingMilitaryCommand();
