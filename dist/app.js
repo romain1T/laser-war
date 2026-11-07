@@ -108,7 +108,7 @@ function onboarding(){
     await loadPlayer();toast('Votre premier monde est établi. Bienvenue, commandant.');
   });};
 }
-async function signout(){const {error}=await db.auth.signOut();if(error){toast(errorText(error));return;}state.version++;state.unread=null;state.readSnapshot=null;state.social={scope:'public',thread:null,conversation:null,data:null,before:null,compose:false};Object.assign(state,{user:null,profile:null,empire:null,planets:[],auth:'login',recovery:false,page:'planets',clan:null,clans:[],signals:[],selectedSignal:null,economy:null,tradeData:null,tradePlanetId:null,military:null,militaryPlanetId:null,progression:null,planetData:null});authView();}
+async function signout(){const {error}=await db.auth.signOut();if(error){toast(errorText(error));return;}state.version++;state.unread=null;state.readSnapshot=null;state.technologies=null;state.technologyOrigin=null;state.social={scope:'public',thread:null,conversation:null,data:null,before:null,compose:false};Object.assign(state,{user:null,profile:null,empire:null,planets:[],auth:'login',recovery:false,page:'planets',clan:null,clans:[],signals:[],selectedSignal:null,economy:null,tradeData:null,tradePlanetId:null,military:null,militaryPlanetId:null,progression:null,planetData:null});authView();}
 const navigation=[['command','command','Commandement',false],['planets','planet','Planètes',false],['trade','trade','Commerce',false],['map','map','Carte galactique',false],['fleets','fleet','Armées & flottes',false],['forum','forum','Forum',false],['messages','message','Messages privés',false],['research','research','Technologies',false]];
 function renderGame(){
   const p=state.planets[state.active];
