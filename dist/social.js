@@ -19,9 +19,9 @@ export function bindSocial({db,state,render,submit,toast,refreshStatus,loadPlaye
  const model=state.social;let searchVersion=0;
  const open=async(changes={})=>{const page=state.page,version=state.version,request=(model.request||0)+1;model.request=request;model.loading=true;Object.assign(model,{before:null,...changes,data:null,error:null});render();try{
   const {data,error}=await db.rpc('social_feed',{p_scope:model.scope,p_thread_id:model.thread,p_conversation_id:model.conversation,p_before:model.before});if(error)throw error;if(request!==model.request||version!==state.version||page!==state.page)return;model.data=data;state.unread=data.status;render();
-  const entries=page==='forum'?data.posts:data.messages;
+  const entries=page==='forum'?(model.thread?data.posts:data.threads.map(t=>({id:t.latest}))):data.messages;
   const channel=page==='forum'?(model.thread?'thread:'+model.thread:'forum:'+model.scope):(model.conversation?'conversation:'+model.conversation:null);
-  if(channel){const cursor=entries.length?entries.reduce((a,p)=>BigInt(p.id)>BigInt(a)?p.id:a,'0'):data.status[channel]?.latest||'0';const {error:readError}=await db.rpc('social_read',{p_channel:channel,p_cursor:cursor});if(readError)throw readError;}
+  if(channel){const cursor=entries.reduce((a,p)=>BigInt(p.id)>BigInt(a)?p.id:a,'0');const {error:readError}=await db.rpc('social_read',{p_channel:channel,p_cursor:cursor});if(readError)throw readError;}
   await refreshStatus();
  }catch(error){if(request===model.request&&version===state.version&&page===state.page){model.error=error.message;model.data=null;render();toast(error.message);}}finally{if(request===model.request)model.loading=false;}};
  document.querySelectorAll('[data-forum-scope]').forEach(b=>b.onclick=()=>open({scope:b.dataset.forumScope,thread:null}));
@@ -39,6 +39,12 @@ export function bindSocial({db,state,render,submit,toast,refreshStatus,loadPlaye
   pending||={id:crypto.randomUUID(),payload};sessionStorage.setItem(key,JSON.stringify(pending));
   const {data,error}=await db.rpc('social_command',{...payload,p_request_id:pending.id});if(error){if(error.code)sessionStorage.removeItem(key);throw error;}sessionStorage.removeItem(key);return data;
  };
+ const recoveryKey='lw-social-command:'+state.user.id;let recovery;try{recovery=JSON.parse(sessionStorage.getItem(recoveryKey)||'null');}catch{}
+ if(recovery&&!document.querySelector('#resume-social')){
+  const button=document.createElement('button');button.id='resume-social';button.className='secondary social-retry';button.textContent='Reprendre la transmission interrompue';
+  button.onclick=async()=>{button.disabled=true;try{const result=await send(recovery.payload.p_action,recovery.payload.p_args);if(recovery.payload.p_action==='signature'){await loadPlayer();return;}state.page=result.thread_id?'forum':'messages';await open({scope:recovery.payload.p_args.scope||model.scope,thread:result.thread_id||null,conversation:result.conversation_id||null,compose:false});}catch(error){toast(error.message);button.disabled=false;}};
+  document.querySelector('#game-content')?.prepend(button);
+ }
  document.querySelector('#signature-form')?.addEventListener('submit',e=>{e.preventDefault();submit(e.currentTarget,async f=>{await send('signature',{signature:f.get('signature')});await loadPlayer();toast('Signature enregistrée.');});});
  document.querySelectorAll('[data-social-action]').forEach(form=>form.onsubmit=e=>{e.preventDefault();submit(form,async f=>{
   const action=form.dataset.socialAction,args=Object.fromEntries(f);if(action==='message'&&!args.target_id)throw Error('Choisissez un destinataire dans les résultats.');
