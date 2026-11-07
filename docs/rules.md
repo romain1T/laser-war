@@ -62,7 +62,7 @@ Armées, usines, flottes, déplacements, combats horaires, conquêtes et rapport
 
 ## Économie active
 
-Paramètres : voir economy-proposal.md. Revenus aux deux extrémités, bonus locaux. Commerce net décroissant avec la distance : 1 500 − min(distance, 1 000) Þ/capacité/jour avant bonus. Civil : 20 000 Þ/million/jour. Entretien quotidien : soldat 2 Þ, scout 20 Þ, bombardier 60 Þ, chasseur 80 Þ.
+Paramètres : voir economy-proposal.md. Revenus aux deux extrémités, bonus locaux. Commerce net décroissant avec la distance : 1 500 − min(distance, 1 000) Þ/capacité/jour avant bonus. Civil : 20 000 Þ/million/jour. Entretien quotidien : soldat 2 Þ, scout 20 Þ, bombardier 60 Þ, destroyer 80 Þ.
 
 Achat jusqu’à 200 capacités selon la courbe validée ; prix serveur et devis périmé refusé. Une demande réserve les deux extrémités pendant 24 heures sans rapporter ; acceptation automatique par défaut, mode manuel par planète. Activer le mode automatique accepte aussi les demandes en attente non expirées. Changer de mode ne ferme pas les liaisons déjà actives. Chaque extrémité peut fermer une liaison.
 

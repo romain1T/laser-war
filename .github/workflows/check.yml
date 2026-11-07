@@ -20,4 +20,5 @@ jobs:
       - run: node --check dist/art.js
       - run: node --check dist/military.js
       - run: node --check dist/progression.js
+      - run: node --check dist/planets.js
       - run: node --test tests/*.test.mjs

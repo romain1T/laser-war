@@ -4,13 +4,13 @@
 
 Recrutement automatique horaire, désactivable par planète ; affichage journalier. Base : 1,5 soldat/jour par million d’habitants × niveau de civilisation. Conseil ×0,8 ; Tyrannie ×1,2 ; Biomasse ×1,15. Les fractions sont conservées, y compris pendant l’arrêt. Garnison plafonnée pour le recrutement à population / 1 000 (plancher 1). Les arrivées de troupes ne sont pas plafonnées. Pas de consommation de population. Pas de recrutement neutre.
 
-Chaque planète dispose initialement de cinq usines. Une usine produit un vaisseau à la fois. Scout : 2 000 Þ, 2 heures, aucun transport. Bombardier : 12 000 Þ, 8 heures, 10 soldats. Chasseur : 16 000 Þ, 10 heures, 10 soldats. Paiement à la commande, pas de réservation de monnaie ni de création anticipée d’unités. Ferros divise toutes les durées industrielles par 1,15.
+Chaque planète dispose initialement de cinq usines. Une usine produit un vaisseau à la fois. Scout : 2 000 Þ, 2 heures, aucun transport. Bombardier : 12 000 Þ, 8 heures, 10 soldats. Destroyer : 16 000 Þ, 10 heures, 10 soldats. Paiement à la commande, pas de réservation de monnaie ni de création anticipée d’unités. Ferros divise toutes les durées industrielles par 1,15.
 
 Sixième usine : 25 000 Þ, 24 heures. Rang n : prix arrondi supérieur de 25 000 × (n/6)^1,6 ; durée 24 × [1 + 0,08 × (n − 6)] h avant Ferros. Un chantier d’usine à la fois par planète, indépendant des lignes de vaisseaux, plafond 200. La production de vaisseaux est limitée aux usines libres, sans file invisible.
 
 ## Déplacements et comptabilité
 
-Une flotte est assemblée à partir des vaisseaux en réserve. Aucun vaisseau n’est ajouté par cette opération. Les unités restent attachées à leur participation d’origine et à leur race de production. Dix soldats par bombardier ou chasseur. Le chargement retire les soldats de leur garnison ou d’un détachement au sol appartenant au même joueur, sur la même planète.
+Une flotte est assemblée à partir des vaisseaux en réserve. Aucun vaisseau n’est ajouté par cette opération. Les unités restent attachées à leur participation d’origine et à leur race de production. Dix soldats par bombardier ou destroyer. Le chargement retire les soldats de leur garnison ou d’un détachement au sol appartenant au même joueur, sur la même planète.
 
 Trajet : max(60 secondes, plafond(distance / √2 000 000 × 691 200 secondes)). Une diagonale de l’univers 1 000 × 1 000 vaut huit jours. Défense ou attaque ; attaque de son propre monde refusée. Les 15 destinations les plus proches sont proposées ; la recherche par nom porte sur l’ensemble des désignations publiques de la carte. La mission ne révèle pas le propriétaire réel de la destination.
 
@@ -26,7 +26,7 @@ Les forces défensives constituent un camp, les forces offensives un autre. Tous
 | --- | ---: | ---: | ---: |
 | Scout | 1 | 2 | 0 |
 | Bombardier | 0 | 10 | 2 |
-| Chasseur | 8 | 12 | 0 |
+| Destroyer | 8 | 12 | 0 |
 
 Un soldat a une puissance et résistance terrestres de 1. Dégâts par heure : 12 % de la puissance adverse ; au sol s’ajoutent les frappes des bombardiers. Répartition proportionnelle entre unités, pertes entières et fractions de dégâts conservées. Les bonus raciaux Vael / Khar s’appliquent aux puissances correspondantes ; Elys reste équilibré. Les passagers meurent à proportion des transports détruits et ne combattent pas avant débarquement.
 

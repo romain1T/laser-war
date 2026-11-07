@@ -7,7 +7,7 @@ Le moteur traite la fin d’assimilation dans la même chronologie que les verse
 ## Score
 
 - Civilisation : 100 × somme des niveaux des mondes actuellement contrôlés.
-- Production vérifiable : 20 % de la valeur des unités produites. Référence : soldat 1, scout 4, bombardier 24, chasseur 32. Cette composante est plafonnée à 40 % des points de civilisation pour empêcher une promotion obtenue uniquement par une boucle de production.
+- Production vérifiable : 20 % de la valeur des unités produites. Référence : soldat 1, scout 4, bombardier 24, destroyer 32. Cette composante est plafonnée à 40 % des points de civilisation pour empêcher une promotion obtenue uniquement par une boucle de production.
 - Destructions : valeur entière des pertes infligées, partagée entre les joueurs du camp selon leur contribution aux dégâts spatiaux et terrestres. Les passagers perdus avec leurs transports sont attribués aux forces spatiales qui les ont détruits. Les fractions sont conservées jusqu’au calcul du score affiché.
 
 Les garnisons de départ, les captures et les transferts de troupes ne sont pas des créations d’armées. Les navires déjà livrés et vérifiables dans les commandes industrielles sont repris à l’activation. Le recrutement et les destructions historiques antérieurs à ce suivi ne sont pas devinés à partir des stocks : leur suivi commence à l’activation. Les pertes infligées à ses propres forces ou à un membre de son clan ne donnent aucun point. Le propriétaire réel et les appartenances cachées ne sont pas exposés dans le calcul retourné.
