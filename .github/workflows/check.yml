@@ -18,6 +18,7 @@ jobs:
       - run: node --check dist/galaxy.js
       - run: node --check dist/economy.js
       - run: node --check dist/art.js
+      - run: node --check dist/help-tips.js
       - run: node --check dist/military.js
       - run: node --check dist/progression.js
       - run: node --check dist/planets.js
