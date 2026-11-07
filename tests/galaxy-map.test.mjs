@@ -18,3 +18,8 @@ test('Every world displays civilization, tagged worlds alone display clan rings 
  assert.equal(galaxyBackground(),galaxyBackground());
  assert.match(html,/translate\(100,200\)/);
 });
+
+test('Foreign named worlds display their names without a clan tag or selection',()=>{
+ const html=galaxyView([{id:'foreign',designation:'Aube libre',x:100,y:200,appearance:'elys_aurite',civilization:1,is_own:false}],null,1);
+ assert.match(html,/<text class="signal-name"[^>]*>Aube libre<\/text>/);
+});
