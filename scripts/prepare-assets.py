@@ -21,6 +21,11 @@ for original in sorted(source.glob('*.png')):
         if bounds:
             image = image.crop(bounds)
         variants = [(output / 'civilization.webp', (160, 160))]
+    elif name.endswith(('_scout', '_destroyer', '_bombardier')):
+        bounds = image.getchannel('A').getbbox()
+        if bounds:
+            image = image.crop(bounds)
+        variants = [(output / (name + '.webp'), (256, 256))]
     elif name.startswith(('race_', 'resource_', 'pop_')):
         variants = [(output / (name + '.webp'), (160, 160))]
     else:

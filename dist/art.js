@@ -11,3 +11,8 @@ export function badge(kind,key,className='art-badge'){
  return `<img class="${h(className)}" src="/assets/art/${kind}_${key}.webp" alt="${name}" title="${name}" width="32" height="32" loading="lazy">`;
 }
 export const civilizationBadge=()=>'<img class="art-badge civilization-badge" src="/assets/art/civilization.webp" alt="Civilisation" width="30" height="30" loading="lazy">';
+export function shipArt(race,kind){
+ const r=raceKeys.includes(race)?race:'elys',names={scout:'scout',bomber:'bombardier',fighter:'destroyer'};
+ if(!Object.hasOwn(names,kind))return '';
+ return `<img class="ship-symbol ship-art ${kind}" src="/assets/art/${r}_${names[kind]}.webp" alt="" width="64" height="64" loading="lazy">`;
+}
