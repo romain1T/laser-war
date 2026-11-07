@@ -1,3 +1,5 @@
+> Mise à jour : les règles de déplacements, N/A, siège, conquête et fortification sont remplacées par [Batailles et transit](battles-and-transit.md).
+
 # Armées et flottes — alpha
 
 ## Règles validées

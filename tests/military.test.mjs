@@ -4,8 +4,8 @@ import {militaryTestDatabase} from '../scripts/test-military-sql.mjs';
 import {militaryDestinations,travelSeconds,militaryView,battleReportsView,assemblyQuote} from '../dist/military.js';
 test('Military destinations support nearest fifteen and distant named search',()=>{
  const worlds=Array.from({length:30},(_,i)=>({id:String(i),designation:i===29?'Orion':'Monde '+i,x:i*10,y:0}));
- assert.equal(militaryDestinations(worlds,'0').length,15);assert.equal(militaryDestinations(worlds,'0')[0].id,'1');assert.equal(militaryDestinations(worlds,'0','orion')[0].id,'29');assert.equal(travelSeconds(Math.sqrt(2000000)),691200);
- assert.equal(travelSeconds(0),60);
+ assert.equal(militaryDestinations(worlds,'0').length,15);assert.equal(militaryDestinations(worlds,'0')[0].id,'1');assert.equal(militaryDestinations(worlds,'0','orion')[0].id,'29');assert.equal(travelSeconds(Math.sqrt(2000000)),604800);
+ assert.equal(travelSeconds(0),3600);
 });
 test('Military interface escapes names and keeps hidden ground forces absent',()=>{
  const html=battleReportsView({reports:[{id:'r',planet:'<img onerror=x>',event:'battle',occurred_at:'2026-11-07T00:00:00Z',details:{mission:'attack',before:{},after:{},enemy_space:{},enemy_ground:null}}]});assert.doesNotMatch(html,/<img onerror/);assert.match(html,/Forces au sol non observées/);
@@ -78,9 +78,9 @@ test('Authoritative military lifecycle in isolated Postgres',async t=>{
   await command('load',{fleet_id:fleet,soldiers:10});await command('dispatch',{fleet_id:fleet,target_id:p2.id,mission:'defend'});
   await db.query("update private.fleets set arrives_at=date_trunc('hour',now())+interval '10 minutes' where id=$1",[fleet]);
   await db.exec("select private.economy_process(date_trunc('hour',now())+interval '1 hour')");let f=await one('select * from private.fleets where id=$1',[fleet]);assert.equal(f.status,'stationed');assert.equal(f.soldiers,10);assert.equal(f.ground_soldiers,0);
-  await assert.rejects(command('load',{fleet_id:fleet,soldiers:0}),/une heure/);
+  await assert.rejects(command('load',{fleet_id:fleet,soldiers:0}),/N\/A/);
   await db.exec("select private.economy_process(date_trunc('hour',now())+interval '2 hours')");f=await one('select * from private.fleets where id=$1',[fleet]);assert.equal(f.soldiers,0);assert.equal(f.ground_soldiers,10);assert.equal((await dashboard()).presence[0].soldiers,10);
-  await command('load',{fleet_id:fleet,soldiers:10});await command('dispatch',{fleet_id:fleet,target_id:p.id,mission:'defend'});f=await one('select * from private.fleets where id=$1',[fleet]);assert.equal(f.soldiers,10);assert.equal(f.ground_soldiers,0);
+  await db.query("update private.fleets set unavailable_until=now(),ground_ready_at=now() where id=$1",[fleet]);await command('load',{fleet_id:fleet,soldiers:10});await command('dispatch',{fleet_id:fleet,target_id:p.id,mission:'defend'});f=await one('select * from private.fleets where id=$1',[fleet]);assert.equal(f.soldiers,10);assert.equal(f.ground_soldiers,0);
  });
  await scenario('Combat respects ship roles, hidden ground forces, allied sides and capture',async()=>{
   await db.query("update public.planets set scouts=0,bombers=0,fighters=0,soldiers=1 where id=$1",[p2.id]);
