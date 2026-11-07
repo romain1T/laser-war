@@ -1,7 +1,7 @@
 import {forumView,messagesView,signatureView,bindSocial,loadSocialAvatars} from './social.js';
 import {compactPopulation,planetManagementSections,bindPlanetCapacityQuotes} from './planets.js';
 import {civilizationView,civilizationInvestmentView,rankProgressView,bindCivilizationQuotes,progressionHelp} from './progression.js';
-import {militaryView,missionView,bindMissionDestinations,foreignPresenceView,battleReportsView,militaryHelp,timeLeft} from './military.js';
+import {militaryView,bindAssembly,missionView,bindMissionDestinations,foreignPresenceView,battleReportsView,militaryHelp,timeLeft} from './military.js';
 import {badge,planetArt,civilizationBadge} from './art.js';
 import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
 import { races, resources, number, escapeHtml as h, validateFounding, readEmailLink, planetLabel } from './domain.js';
@@ -225,6 +225,7 @@ async function sendMilitaryCommand(action,args,existing){
  sessionStorage.removeItem(key);await loadPlayer();toast('Ordre confirmé.');
 }
 function bindMilitary(){
+ bindAssembly(document);
  document.querySelector('#military-world')?.addEventListener('change',e=>{state.militaryPlanetId=e.target.value;renderGame();});
  const bindForms=root=>root.querySelectorAll('form[data-military]').forEach(form=>form.addEventListener('submit',e=>{
   e.preventDefault();submit(form,async fields=>{

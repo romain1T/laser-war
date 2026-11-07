@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {militaryTestDatabase} from '../scripts/test-military-sql.mjs';
-import {militaryDestinations,travelSeconds,militaryView,battleReportsView} from '../dist/military.js';
+import {militaryDestinations,travelSeconds,militaryView,battleReportsView,assemblyQuote} from '../dist/military.js';
 test('Military destinations support nearest fifteen and distant named search',()=>{
  const worlds=Array.from({length:30},(_,i)=>({id:String(i),designation:i===29?'Orion':'Monde '+i,x:i*10,y:0}));
  assert.equal(militaryDestinations(worlds,'0').length,15);assert.equal(militaryDestinations(worlds,'0')[0].id,'1');assert.equal(militaryDestinations(worlds,'0','orion')[0].id,'29');assert.equal(travelSeconds(Math.sqrt(2000000)),691200);
@@ -9,6 +9,13 @@ test('Military destinations support nearest fifteen and distant named search',()
 });
 test('Military interface escapes names and keeps hidden ground forces absent',()=>{
  const html=battleReportsView({reports:[{id:'r',planet:'<img onerror=x>',event:'battle',occurred_at:'2026-11-07T00:00:00Z',details:{mission:'attack',before:{},after:{},enemy_space:{},enemy_ground:null}}]});assert.doesNotMatch(html,/<img onerror/);assert.match(html,/Forces au sol non observées/);
+});
+test('Assembly transport quotes account for scouts, stock and selected transports',()=>{
+ assert.deepEqual(assemblyQuote({scouts:2,bombers:1,fighters:2,soldiers:25},100),{capacity:30,limit:30,remaining:75,valid:true});
+ assert.equal(assemblyQuote({scouts:1,bombers:0,fighters:0,soldiers:1},100).valid,false);
+ assert.equal(assemblyQuote({scouts:0,bombers:1,fighters:0,soldiers:6},5).valid,false);
+ assert.equal(assemblyQuote({scouts:0,bombers:0,fighters:0,soldiers:0},100).valid,false);
+ assert.equal(assemblyQuote({scouts:.5,bombers:0,fighters:0,soldiers:0},100),null);
 });
 test('Authoritative military lifecycle in isolated Postgres',async t=>{
  const db=await militaryTestDatabase();
@@ -24,6 +31,21 @@ test('Authoritative military lifecycle in isolated Postgres',async t=>{
  const command=async(action,args,id=crypto.randomUUID())=>(await one('select public.military_command($1,$2::jsonb,$3) result',[action,JSON.stringify(args),id])).result;
  const dashboard=async()=>(await one('select public.military_dashboard() result')).result;
  const scenario=async(name,fn)=>t.test(name,async()=>{await db.exec('begin');inScenario=true;try{await fn();}finally{inScenario=false;await db.exec('rollback');}});
+ await scenario('Assembly embarks troops atomically, conserves units, replays once and rejects invalid loads',async()=>{
+  await db.query('update public.planets set scouts=3,bombers=2,fighters=1,soldiers=100 where id=$1',[p.id]);
+  const args={planet_id:p.id,name:'Transport',scouts:1,bombers:1,fighters:1,soldiers:17},request=crypto.randomUUID();
+  const result=await command('assemble',args,request);assert.deepEqual(await command('assemble',args,request),result);
+  let world=await one('select scouts,bombers,fighters,soldiers from public.planets where id=$1',[p.id]);assert.deepEqual(world,{scouts:2,bombers:1,fighters:0,soldiers:83});
+  const f=await one('select soldiers,scouts,bombers,fighters from private.fleets where id=$1',[result.id]);assert.deepEqual(f,{soldiers:17,scouts:1,bombers:1,fighters:1});
+  await assert.rejects(command('assemble',{...args,soldiers:18},request),/déjà utilisé/);
+  const count=(await one('select count(*) n from private.fleets where empire_id=$1',[e])).n;
+  await assert.rejects(command('assemble',{...args,fighters:0,bombers:0,soldiers:1}),/Capacité de transport/);
+  await assert.rejects(command('assemble',{...args,fighters:0,bombers:1,soldiers:84}),/Soldats disponibles/);
+  await assert.rejects(command('assemble',{...args,fighters:0,bombers:1,soldiers:-1}),/Soldats disponibles/);
+  assert.deepEqual(await one('select scouts,bombers,fighters,soldiers from public.planets where id=$1',[p.id]),world);assert.equal((await one('select count(*) n from private.fleets where empire_id=$1',[e])).n,count);
+  await login(uid2);await assert.rejects(command('assemble',args),/Planète inaccessible/);await login(uid);
+  await command('disband',{fleet_id:result.id});assert.deepEqual(await one('select scouts,bombers,fighters,soldiers from public.planets where id=$1',[p.id]),{scouts:3,bombers:2,fighters:1,soldiers:100});
+ });
  await scenario('Factory baseline, hourly fractions, stop/start and neutral stasis',async()=>{
   assert.equal(p.factories,5);await db.query("update public.planets set race='elys',resource='aurite',governance='conseil' where id=$1",[p.id]);
   const neutral=await one('select * from public.planets where owner_empire_id is null limit 1');
