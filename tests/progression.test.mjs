@@ -66,6 +66,10 @@ test('Civilization investment and rank lifecycle in isolated Postgres',async t=>
   await db.query('update private.player_merit set destroyed_points=4000 where empire_id=$1',[e]);r=(await dashboard()).rank;assert.equal(r.name,'Fleet Admiral');assert.equal(r.score,10300);
   await db.query('update public.planets set civilization=14 where id=$1',[p.id]);assert.notEqual((await dashboard()).rank.name,'Fleet Admiral');
  });
+ await scenario('Score equals displayed components while fractional merit is retained',async()=>{
+  await db.query('insert into private.player_merit(empire_id,produced_soldiers,destroyed_points) values($1,3,.6)',[e]);let r=(await dashboard()).rank;assert.equal(r.score,r.civilization_points+r.production_points+r.combat_points);assert.equal(r.score,100);
+  await db.query('update private.player_merit set produced_soldiers=6,destroyed_points=1.2 where empire_id=$1',[e]);r=(await dashboard()).rank;assert.equal(r.score,102);
+ });
  await scenario('New progression endpoints and private metrics enforce authentication and ownership',async()=>{
   await db.exec('set role authenticated');const d=await dashboard();assert.equal(d.planets.length,1);await assert.rejects(db.query('select * from private.player_merit'),/permission denied/);await assert.rejects(db.query('select private.player_rank($1)',[e2]),/permission denied/);await assert.rejects(db.query("update public.empires set grade='Fleet Admiral'"),/permission denied/);await assert.rejects(invest(1,1,1,crypto.randomUUID(),enemy.id),/inaccessible/);await db.exec('reset role;set role anon');await assert.rejects(dashboard(),/permission denied/);await db.exec('reset role');
  });

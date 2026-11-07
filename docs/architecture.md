@@ -32,3 +32,8 @@ Les versements économiques utilisent désormais le cron décrit ci-dessous. Les
 ## Économie alpha
 
 Tables privées economy_clock, trade_links, economy_accruals, economy_ledger et economy_commands, aucun droit direct client. Verrou de session pour achats et réservations, identifiant de commande pour reprise réseau, contrôle de devis dans purchase_capacities. Accrual en secondes, fractions conservées, registre unique par planète et échéance. Cron laser-war-economy chaque minute et rattrapage lors des RPC. Versements à 00, 08 et 16 heures UTC ; entretien impayé conservé en dette. Prévisions et historique réservés au propriétaire. Destinations issues de galaxy_signals sans données stratégiques adverses.
+
+
+## Progression des mondes et du joueur
+
+Les tables privées civilization_jobs / civilization_commands / player_merit sont protégées par RLS et sans accès direct client. progression_dashboard et invest_civilization exposent uniquement les données propres et des commandes à devis / identifiant de requête. La fin d’assimilation entre dans la chronologie du moteur militaire avant changement des rendements. Les créations d’unités et les pertes sont créditées côté serveur, jamais déduites d’un stock transmis par le client. Le grade en cache est recalculé sur le score et les conditions courantes. Voir progression-and-ranks.md pour les règles détaillées et les essais.

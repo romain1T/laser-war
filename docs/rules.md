@@ -37,7 +37,7 @@ La session Alpha commence à la migration et se termine un an plus tard. Le serv
 - Départ : 100 000 Þ, 1 000 000 habitants, civilisation 1, 100 soldats, 0 vaisseau, 0 capacité commerciale, énergie 0/100, Conseil. Aucune croissance démographique passive. Recrutement et production militaires actifs, voir military-alpha.md.
 - Vael : flottes +15 %, soldats −15 %. Khar : soldats +15 %, flottes −15 %. Elys : équilibrés.
 - Aurite : revenus civils et commerce +15 %. Biomasse : soldats +15 %. Ferros : chantiers ×1,15 en vitesse.
-- Matelot est le seul grade affiché ; aucune progression n'est encore définie.
+- Onze grades honorifiques vont de Cadet de Flotte à Fleet Admiral, calculés selon le score de civilisation, de production et de destruction militaire. Voir progression-and-ranks.md.
 
 Le bonus Aurite est actif pour les revenus civils et le commerce net. Les bonus militaires et industriels sont actifs. Le bonus de croissance attend le moteur démographique.
 
@@ -74,9 +74,14 @@ Départ au niveau 1, plafond 40. Le bonus commercial local validé est 1 + 0,05 
 
 Les barres distinguent les capacités de notre liaison des capacités libres, pour chaque extrémité. Un bloc jaune vaut une unité ; un bloc orange représente une centaine, sans chiffre dans les blocs. Elles ne montrent pas la répartition des autres relations du partenaire.
 
-Le quatrième mois est une cible indicative pour le niveau 40, sans verrou calendaire. La proposition de progression, ses coûts et simulations sont dans civilization-balance.md ; les commandes d’investissement et l’assimilation ne sont pas encore développées.
+Le quatrième mois est une cible indicative pour le niveau 40, sans verrou calendaire. Les investissements et l’assimilation sont actifs : 80 000 Þ pour civ 2, courbe arrondi(80 000 × (n − 1)^0,85), trois jours par niveau en file séquentielle. Voir civilization-balance.md et progression-and-ranks.md.
 
 
 ## Système militaire actif
 
 Le moteur militaire et ses valeurs provisoires alpha ont été autorisés explicitement par le propriétaire. Voir [military-alpha.md](military-alpha.md) pour les formules, constructions, transports, combats, conquêtes, entretien et règles de confidentialité. Chaque monde commence avec cinq usines. Le recrutement peut être activé ou arrêté. Les déplacements et les pertes sont autoritaires côté serveur, y compris hors connexion.
+
+
+## Grades et progression
+
+Score actuel : 100 points par niveau de civilisation contrôlé + production militaire vérifiable (20 % de la valeur des unités, plafonnée à 40 % des points de civilisation) + destructions ennemies attribuées selon la contribution. Garnisons initiales et transferts ne créent pas de mérite. Les pertes infligées à soi-même ou à son clan ne donnent aucun point. Fleet Admiral : 10 000 points, trois mondes civ 15 et 2 000 points de combat. Les titres suivent le score et peuvent baisser avec les pertes territoriales ; aucun bonus caché.

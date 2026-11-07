@@ -38,4 +38,15 @@ Tables privées civilization_jobs, civilization_commands et player_merit : RLS a
 
 ## Vérifications
 
-27 tests Node réussis, dont migrations exécutées dans Postgres isolé, rattrapage hors connexion, niveaux séquentiels et parallèles, refus des devis périmés / doubles paiements / accès tiers / dette, plafond 40, capture, suivi des productions sans transferts, attribution des pertes et prérequis Fleet Admiral. Migration Supabase validée en transaction annulée. L’activation persistante attend l’accord explicite du propriétaire demandé après refus du contrôle automatique.
+28 tests Node réussis, dont migrations exécutées dans Postgres isolé, rattrapage hors connexion, niveaux séquentiels et parallèles, refus des devis périmés / doubles paiements / accès tiers / dette, plafond 40, capture, suivi des productions sans transferts, attribution des pertes et prérequis Fleet Admiral. Migration Supabase validée en transaction annulée. Après le refus initial du contrôle automatique, le propriétaire a explicitement autorisé l’activation en production. Les deux migrations ont été appliquées. Le score affiché additionne les composantes entières affichées, avec conservation des fractions dans les compteurs privés.
+
+
+### Essais connectés
+
+Fixture QA_Civilization_UI créée avec autorisation explicite et bornée par app_metadata : identifiant de compte, participation et cinq mondes. Un deuxième monde de cette fixture a été attribué au compte QA pour le scénario de première conquête. Aucun monde réel n’a reçu d’investissement de test.
+
+Dans Planètes : achat du niveau 2 à 80 000 Þ, trésorerie 1 000 000 → 920 000, niveau inchangé pendant l’assimilation. Dans Civilisation : financement des niveaux 3 et 4 à 347 737 Þ, trésorerie 572 263, échéances séparées de 72 h. Un investissement indépendant de 80 000 Þ sur le second monde réduit la trésorerie QA à 492 263. Après déplacement des seules échéances QA, le niveau 2 est acquis, le commerce local passe à ×1,05, la file suivante continue et le score passe à 300, Enseigne stellaire, dans le bandeau et la barre supérieure. L’horloge globale de la session n’a pas été avancée.
+
+Affichage du plafond Fleet Admiral vérifié avec des compteurs préparés uniquement sur la fixture : trois mondes civ 15, 4 500 points de civilisation + 1 800 de production après plafond + 4 000 de combat = 10 300. Ce scénario d’affichage ne simule pas de vrais combats sur la partie publique ; l’attribution des combats réels est testée dans Postgres isolé.
+
+Mobile 390 × 844 : document de 375 px, aucun débordement horizontal, file et score lisibles. La sélection d’une planète est conservée par identifiant lors d’un rechargement des données ; les onglets n’attribuent plus une origine à un monde en se basant uniquement sur son ordre de retour.
