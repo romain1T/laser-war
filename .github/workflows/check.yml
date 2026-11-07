@@ -22,4 +22,5 @@ jobs:
       - run: node --check dist/progression.js
       - run: node --check dist/planets.js
       - run: node --check dist/social.js
+      - run: node --check dist/technologies.js
       - run: node --test tests/*.test.mjs

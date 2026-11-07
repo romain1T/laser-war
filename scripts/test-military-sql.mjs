@@ -2,7 +2,11 @@ import {PGlite} from '@electric-sql/pglite';
 import {readFile,readdir} from 'node:fs/promises';
 import assert from 'node:assert/strict';
 export async function militaryTestDatabase(){
- const db=new PGlite();await db.exec(`create role anon;create role authenticated;create schema auth;create schema storage;create schema cron;
+ const db=new PGlite();await db.exec(`create role anon;create role authenticated;create schema auth;create schema storage;create schema cron;create schema extensions;
+ -- Test-only stand-ins: authorization and replay semantics are tested here;
+ -- native Supabase bcrypt is verified separately against the live QA API.
+ create function extensions.gen_salt(text,integer) returns text language sql as $$select gen_random_uuid()::text$$;
+ create function extensions.crypt(text,text) returns text language sql as $$select split_part($2,':',1)||':'||encode(sha256(convert_to($1,'UTF8')),'hex')$$;
  create table auth.users(id uuid primary key,email_confirmed_at timestamptz default now());
  create function auth.uid() returns uuid language sql as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
  grant usage on schema auth to authenticated;grant execute on function auth.uid() to authenticated;

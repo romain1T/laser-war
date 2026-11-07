@@ -50,7 +50,7 @@ test('Authoritative military lifecycle in isolated Postgres',async t=>{
   assert.equal(p.factories,5);await db.query("update public.planets set race='elys',resource='aurite',governance='conseil' where id=$1",[p.id]);
   const neutral=await one('select * from public.planets where owner_empire_id is null limit 1');
   await db.exec("select private.economy_process(now()+interval '24 hours')");
-  let world=await one('select * from public.planets where id=$1',[p.id]);assert.equal(world.soldiers,101);assert.ok(Math.abs(Number(world.recruitment_fraction)-.2)<.00001);
+  let world=await one('select * from public.planets where id=$1',[p.id]);assert.equal(world.soldiers,101);assert.ok(Number(world.recruitment_fraction)>.2&&Number(world.recruitment_fraction)<.21);assert.ok(world.population>1000000);
   assert.equal((await one('select soldiers from public.planets where id=$1',[neutral.id])).soldiers,1);
   await command('recruitment',{planet_id:p.id,enabled:false});const before=world.soldiers;
   await db.exec("select private.economy_process(now()+interval '48 hours')");world=await one('select * from public.planets where id=$1',[p.id]);assert.equal(world.soldiers,before);
