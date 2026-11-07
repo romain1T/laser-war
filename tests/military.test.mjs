@@ -38,8 +38,8 @@ test('Authoritative military lifecycle in isolated Postgres',async t=>{
   await command('ship',args,id);await command('ship',args,id);assert.equal((await dashboard()).jobs.length,3);
   const duration=await one("select extract(epoch from(finishes_at-started_at)) seconds from private.ship_jobs where empire_id=$1 limit 1",[e]);assert.ok(Math.abs(Number(duration.seconds)-7200/1.15)<.01);
   await assert.rejects(command('ship',{...args,quantity:3}),/usines libres/);await assert.rejects(command('ship',{...args,quantity:2},id),/déjà utilisé/);
-  await command('factory',{planet_id:p.id});await assert.rejects(command('factory',{planet_id:p.id}),/déjà en cours/);
-  await db.query("update private.ship_jobs set finishes_at=now()-interval '1 minute' where empire_id=$1",[e]);await db.exec('select private.economy_process()');const d=await dashboard();assert.equal(d.planets[0].scouts,3);assert.equal(d.planets[0].factories,6);
+  await command('factory',{planet_id:p.id,expected_factories:5});await assert.rejects(command('factory',{planet_id:p.id,expected_factories:5}),/déjà en cours/);
+  await db.query("update private.ship_jobs set finishes_at=now()-interval '1 minute' where empire_id=$1",[e]);await db.exec('select private.economy_process()');const d=await dashboard();assert.equal(d.planets[0].scouts,3);assert.equal(d.planets[0].factories,6);await assert.rejects(command('factory',{planet_id:p.id,expected_factories:5}),/devis/);
   await db.query('update public.empires set treasury=0 where id=$1',[e]);await assert.rejects(command('ship',{planet_id:p.id,kind:'fighter',quantity:1}),/Trésorerie/);
  });
  await scenario('Units cannot duplicate or overload; owner pays transit upkeep; other players cannot command fleet',async()=>{
@@ -69,7 +69,19 @@ test('Authoritative military lifecycle in isolated Postgres',async t=>{
   await db.query('update private.fleets set ground_soldiers=soldiers,soldiers=0 where id=$1',[fleet]);await db.query('select private.resolve_battle($1,now())',[p2.id]);
   const captured=await one('select * from public.planets where id=$1',[p2.id]);assert.equal(captured.owner_empire_id,e);assert.equal(captured.rename_available,true);assert.equal(captured.factories,5);assert.equal(captured.race,p2.race);assert.equal(captured.resource,p2.resource);
   reports=(await dashboard()).reports;assert.ok(reports.some(r=>r.event==='capture'&&r.details.captured));assert.equal((await one('select mission from private.fleets where id=$1',[fleet])).mission,'defend');
-  await command('rename',{planet_id:p2.id,name:'Nouvelle Aube'});await assert.rejects(command('rename',{planet_id:p2.id,name:'Autre nom'}),/indisponible/);
+  await assert.rejects(command('rename',{planet_id:p2.id}),/invalide/);await command('rename',{planet_id:p2.id,name:'Nouvelle Aube'});await assert.rejects(command('rename',{planet_id:p2.id,name:'Autre nom'}),/indisponible/);
+ });
+ await scenario('Two defensive players share the same opposing damage and reports',async()=>{
+  const third='33333333-3333-4333-8333-333333333333';await db.query('insert into auth.users(id) values($1)',[third]);await login(third);
+  const e3=(await one("select public.start_player('QA_Military_Gamma','Gamma Prime') id")).id;await login(uid);
+  await db.query("update public.planets set scouts=0,bombers=0,fighters=1,race='elys' where id=$1",[p2.id]);
+  const fleet=async(owner,mission,fighters)=>(await one("insert into private.fleets(empire_id,season_id,name,race,supply_planet,planet_id,origin_id,mission,fighters) values($1,$2,'Combined test','elys',$3,$4,$3,$5,$6) returning id",[owner,p.season_id,p.id,p2.id,mission,fighters])).id;
+  const friendly=await fleet(e,'defend',1);await fleet(e3,'attack',10);
+  for(let i=0;i<3;i++)await db.query('select private.resolve_battle($1,now())',[p2.id]);
+  assert.equal((await one('select fighters from public.planets where id=$1',[p2.id])).fighters,0);
+  assert.equal((await one('select fighters from private.fleets where id=$1',[friendly])).fighters,0);
+  const reports=await db.query('select empire_id,details from private.battle_reports where planet_id=$1',[p2.id]);assert.equal(new Set(reports.rows.map(r=>r.empire_id)).size,3);
+  assert.ok(reports.rows.filter(r=>r.empire_id===e||r.empire_id===e2).every(r=>r.details.enemy_space.fighters===10));
  });
  await scenario('RLS and permissions protect units, commands, reports and foreign worlds',async()=>{
   await db.exec('set role authenticated');assert.equal((await db.query('select * from public.planets')).rows.length,1);

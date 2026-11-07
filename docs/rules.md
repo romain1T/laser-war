@@ -34,12 +34,12 @@ La session Alpha commence à la migration et se termine un an plus tard. Le serv
 ## Propositions provisoires
 
 - Les 5 mondes supplémentaires incluent le monde de départ : total 50 + 5 × empires. Pas d'attribution d'un ancien monde neutre.
-- Départ : 100 000 Þ, 1 000 000 habitants, civilisation 1, 100 soldats, 0 vaisseau, 0 capacité commerciale, énergie 0/100, Conseil. Aucune croissance passive ni production activée.
+- Départ : 100 000 Þ, 1 000 000 habitants, civilisation 1, 100 soldats, 0 vaisseau, 0 capacité commerciale, énergie 0/100, Conseil. Aucune croissance démographique passive. Recrutement et production militaires actifs, voir military-alpha.md.
 - Vael : flottes +15 %, soldats −15 %. Khar : soldats +15 %, flottes −15 %. Elys : équilibrés.
 - Aurite : revenus civils et commerce +15 %. Biomasse : soldats +15 %. Ferros : chantiers ×1,15 en vitesse.
 - Matelot est le seul grade affiché ; aucune progression n'est encore définie.
 
-Le bonus Aurite est actif pour les revenus civils et le commerce net. Les bonus militaires, industriels et de croissance attendent leurs moteurs.
+Le bonus Aurite est actif pour les revenus civils et le commerce net. Les bonus militaires et industriels sont actifs. Le bonus de croissance attend le moteur démographique.
 
 ## Confidentialité actuelle
 
@@ -58,7 +58,7 @@ Le bonus Aurite est actif pour les revenus civils et le commerce net. Les bonus 
 
 Interprétation de « six domaines » dans la page Planètes (la limite d'empire reste 12), valeurs de départ, progression des grades, équations économiques et simulation d'un an. L'arbre Hyperiums est une référence à adapter : bâtiments, noms de races, classes de vaisseaux et protections mentionnées ne constituent pas des règles automatiquement adoptées.
 
-Combats horaires, technologies, énergie utilisable, capitale, reconnaissance, notifications persistantes et forum ne sont pas actifs. Les entrées correspondantes sont annoncées à venir.
+Armées, usines, flottes, déplacements, combats horaires, conquêtes et rapports persistants sont actifs. Technologies, énergie utilisable, capitale, reconnaissance avancée et forum restent à venir.
 
 ## Économie active
 
@@ -72,6 +72,11 @@ Versements à 00:00, 08:00 et 16:00 UTC, prorata réel et fractions conservées.
 
 Départ au niveau 1, plafond 40. Le bonus commercial local validé est 1 + 0,05 × (niveau − 1), appliqué après entretien de distance, puis multiplié par Aurite si présent. Les mondes neutres restent fixes. Les niveaux de civilisation sont publics dans les échanges, avec le nom et les capacités libres ; les données militaires et le propriétaire restent privés.
 
-Les barres distinguent les capacités de notre liaison des capacités libres, pour chaque extrémité. Un petit bloc vaut une unité ; un bloc de couleur différente marqué 10 représente une dizaine. Elles ne montrent pas la répartition des autres relations du partenaire.
+Les barres distinguent les capacités de notre liaison des capacités libres, pour chaque extrémité. Un bloc jaune vaut une unité ; un bloc orange représente une centaine, sans chiffre dans les blocs. Elles ne montrent pas la répartition des autres relations du partenaire.
 
 Le quatrième mois est une cible indicative pour le niveau 40, sans verrou calendaire. La proposition de progression, ses coûts et simulations sont dans civilization-balance.md ; les commandes d’investissement et l’assimilation ne sont pas encore développées.
+
+
+## Système militaire actif
+
+Le moteur militaire et ses valeurs provisoires alpha ont été autorisés explicitement par le propriétaire. Voir [military-alpha.md](military-alpha.md) pour les formules, constructions, transports, combats, conquêtes, entretien et règles de confidentialité. Chaque monde commence avec cinq usines. Le recrutement peut être activé ou arrêté. Les déplacements et les pertes sont autoritaires côté serveur, y compris hors connexion.
