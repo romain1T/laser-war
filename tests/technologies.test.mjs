@@ -55,6 +55,7 @@ test('Technologies, regeneration, demography and teleportation have authoritativ
   result=await cmd('teleport',{origin_id:ps[0],target_id:ps[1],quantity:2,password:'TestCode!1234'});assert.equal(result.energy_cost,1);assert.equal((await q('select sum(ground_soldiers) n from private.fleets where empire_id=$1 and planet_id=$2',[es[0],ps[1]])).n,2);
   assert.ok(!JSON.stringify(await dash()).includes('TestCode'));assert.ok(!JSON.stringify(await dash()).includes('password_hash'));
   const clan=(await q("select public.manage_clan('create',null,'Tech Clan') id")).id;await login(1);await q("select public.manage_clan('join',$1,null)",[clan]);await login(0);assert.equal((await cmd('teleport',{origin_id:ps[0],target_id:ps[1],quantity:1})).ok,true);
+  await login(1);await q("select public.manage_clan('leave',$1,null)",[clan]);await login(0);assert.equal((await cmd('teleport',{origin_id:ps[0],target_id:ps[1],quantity:1})).ok,false);
   await db.query('update public.planets set owner_empire_id=$1 where id=$2',[es[0],ps[1]]);assert.equal((await q('select count(*) n from private.planet_teleport_access where planet_id=$1',[ps[1]])).n,0);
  });
  await scenario('Technology data and password hashes remain inaccessible across users and to anonymous clients',async()=>{
