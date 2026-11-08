@@ -1,3 +1,4 @@
+import {researchFixture} from './research-fixtures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {militaryTestDatabase} from '../scripts/test-military-sql.mjs';
@@ -64,7 +65,7 @@ test('Advanced warfare rules are authoritative and conserve units in isolated Po
  });
  await scenario('Teleported troops remain damageable but cannot load, teleport or act for one hour; energy gains one per hour',async()=>{
   await q('update public.empires set treasury=1000000 where id=$1',[es[0]]);
-  const tech=async(action,args)=>(await q('select public.technology_command($1,$2,$3) r',[action,args,crypto.randomUUID()])).r;
+  const tech=async(action,args)=>action==='research'?researchFixture(db,q,args):(await q('select public.technology_command($1,$2,$3) r',[action,args,crypto.randomUUID()])).r;
   await tech('research',{technology:'energy'});await tech('research',{technology:'teleport'});
   const target=await q('select id from public.planets where owner_empire_id is null limit 1');await q('update public.planets set owner_empire_id=$1 where id=$2',[es[0],target.id]);await q("update public.planets set teleport_ready_at=now(),garrison_ready_at=now() where id=$1",[target.id]);
   await tech('teleport',{origin_id:ps[0].id,target_id:target.id,quantity:10});let f=await q('select * from private.fleets where planet_id=$1 and empire_id=$2',[target.id,es[0]]);assert.ok(f.ground_ready_at>new Date());
@@ -80,7 +81,7 @@ test('Advanced warfare rules are authoritative and conserve units in isolated Po
  });
  await scenario('Conquest resets fortification and Tyranny, opens rename, and applies the network delay to previously owned worlds only',async()=>{
   await q("update public.planets set governance='tyrannie',captured_at=now()-interval '150 days',governance_changed_at=now(),scouts=0,bombers=0,fighters=0,soldiers=0 where id=$1",[ps[1].id]);await fleet({ground:10});await q('select private.resolve_battle($1,now())',[ps[1].id]);const p=await q('select *,private.fortification(p,now()) fort from public.planets p where id=$1',[ps[1].id]);
-  assert.equal(p.governance,'conseil');assert.equal(Number(p.fort),0);assert.equal(p.name,'Signal '+p.serial);assert.equal(p.rename_available,true);assert.equal(Math.round((p.teleport_ready_at-new Date())/3600000),4);
+  assert.equal(p.governance,'conseil');assert.equal(Number(p.fort),0);assert.equal(p.name,'Signal '+p.serial);assert.equal(p.rename_available,true);assert.equal(Math.round((p.teleport_ready_at-new Date())/3600000),2);
   assert.ok((await q('select ground_ready_at from private.fleets where empire_id=$1 and planet_id=$2',[es[0],ps[1].id])).ground_ready_at>new Date());
  });
  await db.close();

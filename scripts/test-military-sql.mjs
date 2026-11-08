@@ -1,7 +1,7 @@
 import {PGlite} from '@electric-sql/pglite';
 import {readFile,readdir} from 'node:fs/promises';
 import assert from 'node:assert/strict';
-export async function militaryTestDatabase(){
+export async function militaryTestDatabase({beforeMigration}={}){
  const db=new PGlite();await db.exec(`create role anon;create role authenticated;create schema auth;create schema storage;create schema cron;create schema extensions;
  -- Test-only stand-ins: authorization and replay semantics are tested here;
  -- native Supabase bcrypt is verified separately against the live QA API.
@@ -14,6 +14,7 @@ export async function militaryTestDatabase(){
  create table storage.objects(bucket_id text,name text);alter table storage.objects enable row level security;
  create function cron.schedule(text,text,text) returns bigint language sql as $$select 1::bigint$$;`);
  for(const file of (await readdir('supabase/migrations')).filter(f=>f.endsWith('.sql')).sort()){
+  if(beforeMigration)await beforeMigration(db,file);
   const sql=(await readFile('supabase/migrations/'+file,'utf8')).replace('create extension if not exists pg_cron;','');
   try{await db.exec(sql);}catch(error){console.error('Migration failed:',file);throw error;}
  }

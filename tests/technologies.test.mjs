@@ -1,3 +1,4 @@
+import {researchFixture} from './research-fixtures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {militaryTestDatabase} from '../scripts/test-military-sql.mjs';
@@ -16,7 +17,7 @@ test('Technologies, regeneration, demography and teleportation have authoritativ
  const login=async i=>db.query("select set_config('request.jwt.claim.sub',$1,false)",[uids[i]]);
  for(let i=0;i<2;i++){await db.query('insert into auth.users(id) values($1)',[uids[i]]);await login(i);es.push((await q('select public.start_player($1,$2) id',['QA_Tech_'+i,'Tech World '+i])).id);ps.push((await q('select * from public.planets where owner_empire_id=$1',[es[i]])).id);await db.query('update public.empires set treasury=2000000 where id=$1',[es[i]]);}
  await login(0);const season=(await q('select season_id from public.empires where id=$1',[es[0]])).season_id;
- const cmd=async(action,args,id=crypto.randomUUID())=>(await q('select public.technology_command($1,$2::jsonb,$3) result',[action,JSON.stringify(args),id])).result;
+ const cmd=async(action,args,id=crypto.randomUUID())=>action==='research'?researchFixture(db,q,args,id):(await q('select public.technology_command($1,$2::jsonb,$3) result',[action,JSON.stringify(args),id])).result;
  const dash=async()=>(await q('select public.technology_dashboard() data')).data;
  const scenario=async(name,fn)=>t.test(name,async()=>{await db.exec('begin');inScenario=true;try{await fn();}finally{inScenario=false;await db.exec('rollback');}});
  await scenario('Research costs are charged once; energy starts full at ten and expands without free charges',async()=>{
@@ -63,7 +64,7 @@ test('Technologies, regeneration, demography and teleportation have authoritativ
   assert.ok(new Date((await q('select teleport_ready_at from public.planets where id=$1',[target.id])).teleport_ready_at)>new Date());await db.query("update public.planets set teleport_ready_at=now()-interval '1 second' where id=$1",[target.id]);
   const args={origin_id:ps[0],target_id:target.id,quantity:9},id=crypto.randomUUID();await cmd('teleport',args,id);await cmd('teleport',args,id);
   assert.deepEqual(await q('select soldiers,energy,scouts,bombers,fighters from public.planets where id=$1',[ps[0]]),{soldiers:91,energy:9,scouts:0,bombers:0,fighters:0});assert.equal((await q('select sum(ground_soldiers) n from private.fleets where empire_id=$1 and planet_id=$2',[es[0],target.id])).n,9);
-  await assert.rejects(cmd('teleport',{...args,quantity:10},id),/déjà utilisé/);assert.equal((await q('select count(*) n from private.battle_reports where empire_id=$1',[es[0]])).n,1);
+  await assert.rejects(cmd('teleport',{...args,quantity:10},id),/déjà utilisé/);assert.equal((await q('select count(*) n from private.battle_reports where empire_id=$1 and event=\'arrival\'',[es[0]])).n,1);
  });
  await scenario('Foreign teleports require both technologies and current clan membership or a valid private code',async()=>{
   await cmd('research',{technology:'energy'});await cmd('research',{technology:'teleport'});

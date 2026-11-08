@@ -1,0 +1,682 @@
+[
+  {
+    "key": "energy",
+    "name": "Recharge d’énergie",
+    "branch": "infrastructure",
+    "cost": 150000,
+    "hours": 12,
+    "effect": "Recharge horaire et réserve de 10 charges.",
+    "requires": [],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "teleport",
+    "name": "Téléportation",
+    "branch": "infrastructure",
+    "cost": 300000,
+    "hours": 24,
+    "effect": "Transport instantané de soldats : 1 par énergie, 2 entre vos mondes.",
+    "requires": [
+      {
+        "key": "energy",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "teleport_improved",
+    "name": "Téléportation améliorée",
+    "branch": "infrastructure",
+    "cost": 250000,
+    "hours": 24,
+    "effect": "Capacité par énergie : 2, puis 3, puis 5 soldats ; doublée entre vos mondes.",
+    "requires": [
+      {
+        "key": "teleport",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 3,
+    "cost_growth": 2,
+    "time_growth": 1.5
+  },
+  {
+    "key": "energy_magma",
+    "name": "Magmas énergétiques",
+    "branch": "infrastructure",
+    "cost": 200000,
+    "hours": 18,
+    "effect": "Plafond de stockage : 25, 50, 75 puis 100 charges.",
+    "requires": [
+      {
+        "key": "energy",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 4,
+    "cost_growth": 2,
+    "time_growth": 1.5
+  },
+  {
+    "key": "travel",
+    "name": "Voyage amélioré",
+    "branch": "infrastructure",
+    "cost": 500000,
+    "hours": 48,
+    "effect": "Chaque niveau multiplie la durée des nouveaux trajets par 0,85.",
+    "requires": [],
+    "race": null,
+    "resource": null,
+    "max_level": 3,
+    "cost_growth": 3,
+    "time_growth": 2
+  },
+  {
+    "key": "infiltration",
+    "name": "Infiltration",
+    "branch": "intelligence",
+    "cost": 150000,
+    "hours": 12,
+    "effect": "Infiltration, contre-infiltration, captivité et purification.",
+    "requires": [],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "genetics_1",
+    "name": "Malléabilité génétique I",
+    "branch": "intelligence",
+    "cost": 200000,
+    "hours": 18,
+    "effect": "Entretien d’infiltration −40 % jusqu’à civ 6 ; contre-infiltration −7 %.",
+    "requires": [
+      {
+        "key": "infiltration",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "genetics_2",
+    "name": "Malléabilité génétique II",
+    "branch": "intelligence",
+    "cost": 300000,
+    "hours": 24,
+    "effect": "Entretien d’infiltration −40 % jusqu’à civ 7 ; contre-infiltration −15 %.",
+    "requires": [
+      {
+        "key": "genetics_1",
+        "level": 1
+      }
+    ],
+    "race": "elys",
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "mind_duplication",
+    "name": "Duplication mentale",
+    "branch": "intelligence",
+    "cost": 450000,
+    "hours": 36,
+    "effect": "Entretien d’infiltration −40 % jusqu’à civ 9 ; contre-infiltration −25 %.",
+    "requires": [
+      {
+        "key": "genetics_1",
+        "level": 1
+      }
+    ],
+    "race": "vael",
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "mind_control",
+    "name": "Contrôle mental",
+    "branch": "intelligence",
+    "cost": 700000,
+    "hours": 48,
+    "effect": "Entretien d’infiltration −40 % jusqu’à civ 11 ; contre-infiltration −35 %.",
+    "requires": [
+      {
+        "key": "genetics_1",
+        "level": 1
+      }
+    ],
+    "race": "khar",
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "infiltration_advanced",
+    "name": "Infiltration avancée",
+    "branch": "intelligence",
+    "cost": 350000,
+    "hours": 24,
+    "effect": "Entretien d’infiltration −40 % jusqu’à civ N+7 ; les réductions ne se cumulent pas.",
+    "requires": [
+      {
+        "key": "genetics_1",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 33,
+    "cost_growth": 1.3,
+    "time_growth": 1.08
+  },
+  {
+    "key": "workers_1",
+    "name": "Productivité ouvrière I",
+    "branch": "exploitation",
+    "cost": 150000,
+    "hours": 12,
+    "effect": "Nouvelles capacités commerciales −30 % jusqu’à civ 4.",
+    "requires": [],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "workers_2",
+    "name": "Productivité ouvrière II",
+    "branch": "exploitation",
+    "cost": 300000,
+    "hours": 24,
+    "effect": "Nouvelles capacités commerciales −30 % jusqu’à civ 5.",
+    "requires": [
+      {
+        "key": "workers_1",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "cybernetics_1",
+    "name": "Cybernétique I",
+    "branch": "exploitation",
+    "cost": 600000,
+    "hours": 48,
+    "effect": "Nouvelles capacités commerciales −30 % jusqu’à civ 7.",
+    "requires": [
+      {
+        "key": "workers_2",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "cybernetics_2",
+    "name": "Cybernétique II",
+    "branch": "exploitation",
+    "cost": 1200000,
+    "hours": 72,
+    "effect": "Nouvelles capacités commerciales −30 % jusqu’à civ 9.",
+    "requires": [
+      {
+        "key": "cybernetics_1",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "exploitation_aurite",
+    "name": "Exploitation Aurite",
+    "branch": "exploitation",
+    "cost": 400000,
+    "hours": 24,
+    "effect": "Capacités de cette ressource −30 % jusqu’à civ N+5 ; réduction non cumulable.",
+    "requires": [
+      {
+        "key": "workers_1",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": "aurite",
+    "max_level": 35,
+    "cost_growth": 1.3,
+    "time_growth": 1.08
+  },
+  {
+    "key": "exploitation_ferros",
+    "name": "Exploitation Ferros",
+    "branch": "exploitation",
+    "cost": 400000,
+    "hours": 24,
+    "effect": "Capacités de cette ressource −30 % jusqu’à civ N+5 ; réduction non cumulable.",
+    "requires": [
+      {
+        "key": "workers_1",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": "ferros",
+    "max_level": 35,
+    "cost_growth": 1.3,
+    "time_growth": 1.08
+  },
+  {
+    "key": "exploitation_biomasse",
+    "name": "Exploitation Biomasse",
+    "branch": "exploitation",
+    "cost": 400000,
+    "hours": 24,
+    "effect": "Capacités de cette ressource −30 % jusqu’à civ N+5 ; réduction non cumulable.",
+    "requires": [
+      {
+        "key": "workers_1",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": "biomasse",
+    "max_level": 35,
+    "cost_growth": 1.3,
+    "time_growth": 1.08
+  },
+  {
+    "key": "camouflage",
+    "name": "Bouclier entropique",
+    "branch": "warfare",
+    "cost": 750000,
+    "hours": 48,
+    "effect": "Forces anonymes, puissance −25 %. Capture anonyme pendant 21 jours.",
+    "requires": [],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "massive_bombing",
+    "name": "Bombardement massif",
+    "branch": "warfare",
+    "cost": 600000,
+    "hours": 36,
+    "effect": "Les bombardiers frappent population, capacités et usines ; vulnérabilité spatiale accrue.",
+    "requires": [],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "stasis",
+    "name": "Tranchées stellaires",
+    "branch": "warfare",
+    "cost": 300000,
+    "hours": 24,
+    "effect": "Combats trois fois plus lents ; rendement des usines divisé par trois.",
+    "requires": [
+      {
+        "key": "energy",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "ships_elys",
+    "name": "Vaisseaux Elys",
+    "branch": "warfare",
+    "cost": 250000,
+    "hours": 18,
+    "effect": "Nouvelles unités seulement ; avantage de 3 % par niveau moyen d’écart, plafonné à 30 %.",
+    "requires": [],
+    "race": "elys",
+    "resource": null,
+    "max_level": 100,
+    "cost_growth": 1.2,
+    "time_growth": 1.08
+  },
+  {
+    "key": "armies_elys",
+    "name": "Armées Elys",
+    "branch": "warfare",
+    "cost": 250000,
+    "hours": 18,
+    "effect": "Nouvelles unités seulement ; avantage de 3 % par niveau moyen d’écart, plafonné à 30 %.",
+    "requires": [],
+    "race": "elys",
+    "resource": null,
+    "max_level": 100,
+    "cost_growth": 1.2,
+    "time_growth": 1.08
+  },
+  {
+    "key": "ships_vael",
+    "name": "Vaisseaux Vael",
+    "branch": "warfare",
+    "cost": 250000,
+    "hours": 18,
+    "effect": "Nouvelles unités seulement ; avantage de 3 % par niveau moyen d’écart, plafonné à 30 %.",
+    "requires": [],
+    "race": "vael",
+    "resource": null,
+    "max_level": 100,
+    "cost_growth": 1.2,
+    "time_growth": 1.08
+  },
+  {
+    "key": "armies_vael",
+    "name": "Armées Vael",
+    "branch": "warfare",
+    "cost": 250000,
+    "hours": 18,
+    "effect": "Nouvelles unités seulement ; avantage de 3 % par niveau moyen d’écart, plafonné à 30 %.",
+    "requires": [],
+    "race": "vael",
+    "resource": null,
+    "max_level": 100,
+    "cost_growth": 1.2,
+    "time_growth": 1.08
+  },
+  {
+    "key": "ships_khar",
+    "name": "Vaisseaux Khar",
+    "branch": "warfare",
+    "cost": 250000,
+    "hours": 18,
+    "effect": "Nouvelles unités seulement ; avantage de 3 % par niveau moyen d’écart, plafonné à 30 %.",
+    "requires": [],
+    "race": "khar",
+    "resource": null,
+    "max_level": 100,
+    "cost_growth": 1.2,
+    "time_growth": 1.08
+  },
+  {
+    "key": "armies_khar",
+    "name": "Armées Khar",
+    "branch": "warfare",
+    "cost": 250000,
+    "hours": 18,
+    "effect": "Nouvelles unités seulement ; avantage de 3 % par niveau moyen d’écart, plafonné à 30 %.",
+    "requires": [],
+    "race": "khar",
+    "resource": null,
+    "max_level": 100,
+    "cost_growth": 1.2,
+    "time_growth": 1.08
+  },
+  {
+    "key": "relativity",
+    "name": "Relativité universelle",
+    "branch": "scanning",
+    "cost": 250000,
+    "hours": 24,
+    "effect": "Débloque les quatre familles de scans. Un scan coûte 80 000 Þ et prend 4 heures.",
+    "requires": [],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "scan_stasis",
+    "name": "Scan : Tranchées",
+    "branch": "scanning",
+    "cost": 200000,
+    "hours": 18,
+    "effect": "Scan normal, anonyme ou furtif parmi les 30 planètes les plus proches.",
+    "requires": [
+      {
+        "key": "relativity",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "scan_fleets",
+    "name": "Scan : Flottes",
+    "branch": "scanning",
+    "cost": 200000,
+    "hours": 18,
+    "effect": "Scan normal, anonyme ou furtif parmi les 30 planètes les plus proches.",
+    "requires": [
+      {
+        "key": "relativity",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "scan_armies",
+    "name": "Scan : Armées au sol",
+    "branch": "scanning",
+    "cost": 200000,
+    "hours": 18,
+    "effect": "Scan normal, anonyme ou furtif parmi les 30 planètes les plus proches.",
+    "requires": [
+      {
+        "key": "relativity",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "scan_trade",
+    "name": "Scan : Commerce",
+    "branch": "scanning",
+    "cost": 200000,
+    "hours": 18,
+    "effect": "Scan normal, anonyme ou furtif parmi les 30 planètes les plus proches.",
+    "requires": [
+      {
+        "key": "relativity",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "stargate",
+    "name": "Porte stellaire massive",
+    "branch": "infrastructure",
+    "cost": 2000000,
+    "hours": 120,
+    "effect": "Réseau protégé par code ; saut de flotte en 10 heures ; entretien de 1 énergie/h.",
+    "requires": [
+      {
+        "key": "energy_magma",
+        "level": 2
+      },
+      {
+        "key": "travel",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "black_hole_1",
+    "name": "Confinement de trou noir 1",
+    "branch": "warfare",
+    "cost": 2000000,
+    "hours": 48,
+    "effect": "Étape 1/4. Total des quatre recherches : 20 000 000 Þ. Arme disponible après l’étape IV.",
+    "requires": [
+      {
+        "key": "energy_magma",
+        "level": 2
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "black_hole_2",
+    "name": "Confinement de trou noir 2",
+    "branch": "warfare",
+    "cost": 4000000,
+    "hours": 96,
+    "effect": "Étape 2/4. Total des quatre recherches : 20 000 000 Þ. Arme disponible après l’étape IV.",
+    "requires": [
+      {
+        "key": "black_hole_1",
+        "level": 1
+      }
+    ],
+    "race": "elys",
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "black_hole_3",
+    "name": "Confinement de trou noir 3",
+    "branch": "warfare",
+    "cost": 6000000,
+    "hours": 144,
+    "effect": "Étape 3/4. Total des quatre recherches : 20 000 000 Þ. Arme disponible après l’étape IV.",
+    "requires": [
+      {
+        "key": "black_hole_2",
+        "level": 1
+      }
+    ],
+    "race": "vael",
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "black_hole_4",
+    "name": "Confinement de trou noir 4",
+    "branch": "warfare",
+    "cost": 8000000,
+    "hours": 192,
+    "effect": "Étape 4/4. Total des quatre recherches : 20 000 000 Þ. Arme disponible après l’étape IV.",
+    "requires": [
+      {
+        "key": "black_hole_3",
+        "level": 1
+      }
+    ],
+    "race": "khar",
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "black_hole_offensive",
+    "name": "Trou noir offensif",
+    "branch": "warfare",
+    "cost": 15000000,
+    "hours": 240,
+    "effect": "Préparation publique de 96 h ; condamne un huitième des mondes les plus proches en 16 à 31 jours.",
+    "requires": [
+      {
+        "key": "black_hole_4",
+        "level": 1
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  },
+  {
+    "key": "energy_blast",
+    "name": "Onde énergétique",
+    "branch": "warfare",
+    "cost": 1500000,
+    "hours": 96,
+    "effect": "Vide les réserves voisines et réduit leurs fortifications à 13 % au maximum.",
+    "requires": [
+      {
+        "key": "energy_magma",
+        "level": 4
+      }
+    ],
+    "race": null,
+    "resource": null,
+    "max_level": 1,
+    "cost_growth": 1,
+    "time_growth": 1
+  }
+]

@@ -26,4 +26,6 @@ jobs:
       - run: node --check dist/planets.js
       - run: node --check dist/social.js
       - run: node --check dist/technologies.js
+      - run: node --check dist/research-tree.js
+      - run: node --check dist/technology-actions.js
       - run: node --test tests/*.test.mjs
