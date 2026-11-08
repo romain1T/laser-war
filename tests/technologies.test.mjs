@@ -38,6 +38,24 @@ test('Technologies, regeneration, demography and teleportation have authoritativ
   await db.query("insert into private.fleets(empire_id,season_id,name,race,supply_planet,planet_id,origin_id,mission,scouts) values($1,$2,'War','khar',$3,$4,$3,'attack',1)",[es[1],season,ps[1],neutral.id]);assert.equal(Number((await q('select private.population_growth_state($1) g',[ps[0]])).g.daily_rate),.003375);
   await db.query('update private.fleets set planet_id=$1 where name=\'War\'',[ps[0]]);assert.equal(Number((await q('select private.population_growth_state($1) g',[ps[0]])).g.daily_rate),0);
  });
+ await scenario('Civilization adds a relative two percent per level and compounds with policy, trade and war',async()=>{
+  await db.query("update public.planets set governance='conseil',population=1000000,population_fraction=0,civilization=10,trade_capacity=10,resource='biomasse',development_last_at=now() where id=$1",[ps[0]]);
+  const rate=async()=>Number((await q('select private.population_growth_state($1) g',[ps[0]])).g.daily_rate);
+  assert.equal(await rate(),.00708);
+  await q("select private.advance_planet_development($1,now()+interval '1 hour')",[season]);
+  assert.equal((await q('select population from public.planets where id=$1',[ps[0]])).population,1000295);
+  await q("select private.advance_planet_development($1,now()+interval '1 hour')",[season]);
+  assert.equal((await q('select population from public.planets where id=$1',[ps[0]])).population,1000295);
+  await db.query('update public.planets set civilization=40 where id=$1',[ps[0]]);assert.equal(await rate(),.01068);
+  await db.query("update public.planets set resource='aurite',trade_capacity=10 where id=$1",[ps[1]]);
+  await q("select public.trade_command('propose',$1,$2,10,null,$3)",[ps[0],ps[1],crypto.randomUUID()]);assert.equal(await rate(),.01335);
+  await db.query("update public.planets set governance='tyrannie' where id=$1",[ps[0]]);assert.equal(await rate(),.0089);
+  const neutral=await q('select * from public.planets where owner_empire_id is null limit 1');
+  await db.query('update public.planets set x=1000,y=1000 where season_id=$1',[season]);await db.query('update public.planets set x=0,y=0 where id=$1',[ps[0]]);await db.query('update public.planets set x=1,y=1 where id=$1',[neutral.id]);
+  assert.equal(Number((await q('select private.population_growth_state($1) g',[neutral.id])).g.daily_rate),0);
+  await db.query("insert into private.fleets(empire_id,season_id,name,race,supply_planet,planet_id,origin_id,mission,scouts) values($1,$2,'Civ War','khar',$3,$4,$3,'attack',1)",[es[1],season,ps[1],neutral.id]);assert.equal(await rate(),.00445);
+  await db.query("update private.fleets set planet_id=$1 where name='Civ War'",[ps[0]]);assert.equal(await rate(),0);
+ });
  await scenario('Own-world teleport moves only soldiers instantly, uses half-price energy and cannot duplicate a replay',async()=>{
   await cmd('research',{technology:'energy'});await cmd('research',{technology:'teleport'});
   const target=await q('select id from public.planets where owner_empire_id is null limit 1');await db.query('update public.planets set owner_empire_id=$1,teleport_ready_at=now() where id=$2',[es[0],target.id]);
