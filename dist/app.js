@@ -212,8 +212,9 @@ function savePlanetOptions(e){e.preventDefault();const form=e.currentTarget;cons
   await loadPlayer();toast('Options de la planète enregistrées.');
 });}
 function bindMap(){
-  document.querySelectorAll('[data-signal]').forEach(el=>el.onclick=()=>{state.selectedSignal=el.dataset.signal;renderGame();});
-  document.querySelectorAll('[data-zoom]').forEach(b=>b.onclick=()=>{state.mapZoom=Math.min(3,Math.max(.5,state.mapZoom+Number(b.dataset.zoom)*.25));renderGame();});
+  const redraw=()=>{const scroll=document.querySelector('.galaxy-scroll'),position={left:scroll.scrollLeft,top:scroll.scrollTop};renderGame();const next=document.querySelector('.galaxy-scroll');next.scrollLeft=position.left;next.scrollTop=position.top;};
+  document.querySelectorAll('[data-signal]').forEach(el=>el.onclick=()=>{state.selectedSignal=el.dataset.signal;redraw();});
+  document.querySelectorAll('[data-zoom]').forEach(b=>b.onclick=()=>{state.mapZoom=Math.min(3,Math.max(.5,state.mapZoom+Number(b.dataset.zoom)*.25));redraw();});
   document.querySelector('[data-open-planet]')?.addEventListener('click',e=>{const index=state.planets.findIndex(p=>p.id===e.currentTarget.dataset.openPlanet);if(index>=0){state.active=index;state.page='planets';renderGame();}});
 }
 function alertsView(){return pageHeader('TRANSMISSIONS','Notifications & rapports')+commercialNotificationsView(state.military,state.readSnapshot?.alert_ids||state.unread?.alert_ids||[])+battleReportsView(state.military,state.readSnapshot?.alert_ids||state.unread?.alert_ids||[]);}
