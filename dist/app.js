@@ -231,14 +231,14 @@ async function sendMilitaryCommand(action,args,existing){
 function bindMilitary(){
  document.querySelectorAll('[data-report-page]').forEach(button=>button.onclick=async()=>{
   const history=state.battleHistory;if(history.loading)return;
-  if(button.dataset.reportPage==='previous'){const previous=history.stack.pop();if(previous){Object.assign(history,previous,{error:null});renderGame();}return;}
+  if(button.dataset.reportPage==='previous'){const previous=history.stack.pop();if(previous){Object.assign(history,previous,{error:null});renderGame();document.querySelector('.battle-reports')?.scrollIntoView({block:'start'});}return;}
   const current=history.response||state.military?.report_page;if(!current?.has_more)return;
-  const version=state.version,prior={page:history.page,response:history.response};history.loading=true;history.error=null;
+  const version=state.version,prior={page:history.page,response:current};history.loading=true;history.error=null;
   document.querySelectorAll('[data-report-page]').forEach(b=>b.disabled=true);
   const {data,error}=await db.rpc('battle_reports_page',{p_before:current.next_before});
   if(version!==state.version||history!==state.battleHistory)return;
   history.loading=false;if(error)history.error=errorText(error);else{history.stack.push(prior);history.response=data;history.page++;}
-  if(state.page==='alerts')renderGame();
+  if(state.page==='alerts'){renderGame();document.querySelector('.battle-reports')?.scrollIntoView({block:'start'});}
  });
 
  bindAssembly(document);
