@@ -1,6 +1,7 @@
 import {escapeHtml as h,number} from './domain.js';
 import {planetArt,badge,shipArt} from './art.js';
 const units=[['soldiers','Soldats'],['scouts','Scouts'],['bombers','Bombardiers'],['fighters','Destroyers']];
+const hasAllies=group=>units.some(([key])=>Number(group?.before?.[key])>0||Number(group?.after?.[key])>0);
 const date=v=>new Intl.DateTimeFormat('fr-FR',{dateStyle:'short',timeStyle:'short'}).format(new Date(v));
 function sideTable(title,group,tone,race='elys'){
  const before=group?.before,after=group?.after;
@@ -9,7 +10,7 @@ function sideTable(title,group,tone,race='elys'){
 export function reportCard(r,unreadIds=[]){
  const d=r.details||{},s=d.sides,appearance=planetArt(r.appearance,true),race=String(r.appearance||'elys').split('_')[0];
  const combat=['battle','capture'].includes(r.event);
- const body=combat?`<p class="report-outcome">${d.captured?'Planète conquise':d.mission==='attack'?'Vos forces en attaque':'Vos forces en défense'}</p><div class="report-camps"><div class="report-friendly">${sideTable('Vos forces',s?.own||{before:d.before,after:d.after},'own',race)}${sideTable('Forces alliées',s?.allies,'allied',race)}</div><div class="report-opposition">${sideTable('Forces ennemies',s?.enemies||{before:{...d.enemy_space,soldiers:d.enemy_ground}},'hostile',race)}</div></div>`:r.event==='takeover'?`<p>Nouveau propriétaire : ${h(d.new_owner||'Inconnu')}.</p>`:`<p>${h(d.fleet||'Renforts')} a rejoint ce monde en ${d.mission==='attack'?'attaque':'défense'}.${d.teleport?' Soldats indisponibles pendant une heure.':d.lands_at?` Débarquement après ${date(d.lands_at)}.`:''}</p>`;
+ const body=combat?`<p class="report-outcome">${d.captured?'Planète conquise':d.mission==='attack'?'Vos forces en attaque':'Vos forces en défense'}</p><div class="report-camps"><div class="report-friendly">${sideTable('Vos forces',s?.own||{before:d.before,after:d.after},'own',race)}${hasAllies(s?.allies)?sideTable('Forces alliées',s.allies,'allied',race):''}</div><div class="report-opposition">${sideTable('Forces ennemies',s?.enemies||{before:{...d.enemy_space,soldiers:d.enemy_ground}},'hostile',race)}</div></div>`:r.event==='takeover'?`<p>Nouveau propriétaire : ${h(d.new_owner||'Inconnu')}.</p>`:`<p>${h(d.fleet||'Renforts')} a rejoint ce monde en ${d.mission==='attack'?'attaque':'défense'}.${d.teleport?' Soldats indisponibles pendant une heure.':d.lands_at?` Débarquement après ${date(d.lands_at)}.`:''}</p>`;
  return `<details class="battle-report visual-report ${unreadIds.includes(r.id)?'is-unread':''}"><summary>${appearance?`<img class="report-world" src="${appearance}" alt="" width="44" height="44">`:''}<span class="report-event ${h(r.event)}">${({capture:'Conquête',arrival:'Arrivée',battle:'Combat',takeover:'Prise de contrôle'})[r.event]||'Opération'}</span><b>${h(r.planet||'Planète')}</b><time datetime="${h(r.occurred_at)}">${date(r.occurred_at)}</time></summary><div class="report-body">${body}</div></details>`;
 }
 export function battleReportsView(data,unreadIds=[],history={}){
