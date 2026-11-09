@@ -29,7 +29,7 @@ test('Civilization investment and rank lifecycle in isolated Postgres',async t=>
  await scenario('Separate worlds progress in parallel and two worlds plus civ2 earn the first promotion',async()=>{
   const second=(await one("insert into public.planets(season_id,owner_empire_id,name,race,resource) values($1,$2,'Second World','elys','ferros') returning id",[p.season_id,e])).id;
   await invest();await invest(1,1,1,crypto.randomUUID(),second);
-  await db.exec("select private.economy_process(now()+interval '72 hours')");const d=await dashboard();assert.equal(d.rank.name,'Enseigne stellaire');assert.equal(d.rank.civilization_points,400);assert.ok(d.planets.every(w=>w.civilization===2));
+  await db.exec("select private.economy_process(now()+interval '72 hours')");const d=await dashboard();assert.equal(d.rank.name,'Aspirant de Flotte');assert.equal(d.rank.civilization_points,400);assert.ok(d.planets.every(w=>w.civilization===2));
   await db.query('update public.planets set civilization=1 where id=$1',[second]);assert.equal((await dashboard()).rank.civilization_points,300);
  });
  await scenario('Capture cancels prepaid jobs without granting their levels or refunds',async()=>{
@@ -60,18 +60,18 @@ test('Civilization investment and rank lifecycle in isolated Postgres',async t=>
   await db.query("insert into private.clan_memberships(empire_id,clan_id,season_id,role) values($1,$3,$4,'founder'),($2,$3,$4,'member')",[e,e2,clan,p.season_id]);
   await db.query("select private.credit_battle_losses($1::jsonb,$2,'defend',32,10)",[JSON.stringify(snapshot),e]);assert.equal(Number((await one('select destroyed_points from private.player_merit where empire_id=$1',[e2])).destroyed_points),42);
  });
- await scenario('Fleet Admiral requires three advanced worlds, combat and score; production alone is capped',async()=>{
+ await scenario('Grand Amiral requires three advanced worlds, combat and score; production alone is capped',async()=>{
   await db.query('update public.planets set civilization=15 where id=$1',[p.id]);await db.query("insert into public.planets(season_id,owner_empire_id,name,race,resource,civilization) values($1,$2,'Advanced Two','elys','aurite',15),($1,$2,'Advanced Three','elys','aurite',15)",[p.season_id,e]);
-  await db.query('insert into private.player_merit(empire_id,produced_soldiers,destroyed_points) values($1,1000000,0)',[e]);let r=(await dashboard()).rank;assert.equal(r.production_points,1800);assert.notEqual(r.name,'Fleet Admiral');
-  await db.query('update private.player_merit set destroyed_points=4000 where empire_id=$1',[e]);r=(await dashboard()).rank;assert.equal(r.name,'Fleet Admiral');assert.equal(r.score,10300);
-  await db.query('update public.planets set civilization=14 where id=$1',[p.id]);assert.notEqual((await dashboard()).rank.name,'Fleet Admiral');
+  await db.query('insert into private.player_merit(empire_id,produced_soldiers,destroyed_points) values($1,1000000,0)',[e]);let r=(await dashboard()).rank;assert.equal(r.production_points,1800);assert.notEqual(r.name,'Grand Amiral');
+  await db.query('update private.player_merit set destroyed_points=4000 where empire_id=$1',[e]);r=(await dashboard()).rank;assert.equal(r.name,'Grand Amiral');assert.equal(r.score,10300);
+  await db.query('update public.planets set civilization=14 where id=$1',[p.id]);assert.notEqual((await dashboard()).rank.name,'Grand Amiral');
  });
  await scenario('Score equals displayed components while fractional merit is retained',async()=>{
   await db.query('insert into private.player_merit(empire_id,produced_soldiers,destroyed_points) values($1,3,.6)',[e]);let r=(await dashboard()).rank;assert.equal(r.score,r.civilization_points+r.production_points+r.combat_points);assert.equal(r.score,100);
   await db.query('update private.player_merit set produced_soldiers=6,destroyed_points=1.2 where empire_id=$1',[e]);r=(await dashboard()).rank;assert.equal(r.score,102);
  });
  await scenario('New progression endpoints and private metrics enforce authentication and ownership',async()=>{
-  await db.exec('set role authenticated');const d=await dashboard();assert.equal(d.planets.length,1);await assert.rejects(db.query('select * from private.player_merit'),/permission denied/);await assert.rejects(db.query('select private.player_rank($1)',[e2]),/permission denied/);await assert.rejects(db.query("update public.empires set grade='Fleet Admiral'"),/permission denied/);await assert.rejects(invest(1,1,1,crypto.randomUUID(),enemy.id),/inaccessible/);await db.exec('reset role;set role anon');await assert.rejects(dashboard(),/permission denied/);await db.exec('reset role');
+  await db.exec('set role authenticated');const d=await dashboard();assert.equal(d.planets.length,1);await assert.rejects(db.query('select * from private.player_merit'),/permission denied/);await assert.rejects(db.query('select private.player_rank($1)',[e2]),/permission denied/);await assert.rejects(db.query("update public.empires set grade='Grand Amiral'"),/permission denied/);await assert.rejects(invest(1,1,1,crypto.randomUUID(),enemy.id),/inaccessible/);await db.exec('reset role;set role anon');await assert.rejects(dashboard(),/permission denied/);await db.exec('reset role');
  });
  const sample=await dashboard();sample.planets[0].name='<img onerror=alert(1)>';const html=civilizationView(sample,null);assert.doesNotMatch(html,/<img onerror/);assert.match(html,/80 000 Þ/);
  await db.close();
