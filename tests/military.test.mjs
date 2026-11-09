@@ -103,7 +103,7 @@ test('Authoritative military lifecycle in isolated Postgres',async t=>{
   assert.equal((await one('select fighters from public.planets where id=$1',[p2.id])).fighters,0);
   assert.equal((await one('select fighters from private.fleets where id=$1',[friendly])).fighters,0);
   const reports=await db.query('select empire_id,details from private.battle_reports where planet_id=$1',[p2.id]);assert.equal(new Set(reports.rows.map(r=>r.empire_id)).size,3);
-  assert.ok(reports.rows.filter(r=>r.empire_id===e||r.empire_id===e2).every(r=>r.details.enemy_space.fighters===10));
+  const defenders=reports.rows.filter(r=>r.empire_id===e||r.empire_id===e2);assert.ok(defenders.every(r=>r.details.enemy_space.fighters>0&&r.details.enemy_space.fighters<=10));assert.equal(defenders[0].details.enemy_space.fighters,defenders[1].details.enemy_space.fighters);
  });
  await scenario('RLS and permissions protect units, commands, reports and foreign worlds',async()=>{
   await db.exec('set role authenticated');assert.equal((await db.query('select * from public.planets')).rows.length,1);

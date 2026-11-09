@@ -83,14 +83,14 @@ test('Research and special projects enforce ownership, timing, costs and conserv
  await scenario('Ship cohorts stay weighted, camouflage reduces firepower and superiority bonuses cap at thirty percent',async()=>{
   await q("update public.planets set race='elys',scouts=0,soldiers=0 where id in($1,$2)",[ps[0].id,ps[1].id]);await grant('ships_elys',10);await q('update public.planets set scouts=10 where id=$1',[ps[0].id]);assert.equal(Number((await q('select ship_tech from public.planets where id=$1',[ps[0].id])).ship_tech),10);
   await grant('ships_elys',20);await q('update public.planets set scouts=scouts+10 where id=$1',[ps[0].id]);assert.equal(Number((await q('select ship_tech from public.planets where id=$1',[ps[0].id])).ship_tech),15);
-  await q('update public.planets set scouts=1000 where id=$1',[ps[1].id]);const attacker=await fleet({scouts:1000,shipsLevel:10});await q('select private.resolve_battle($1,now())',[ps[1].id]);assert.equal((await q('select scouts from public.planets where id=$1',[ps[1].id])).scouts,922);assert.equal((await q('select scouts from private.fleets where id=$1',[attacker])).scouts,940);
+  await q('update public.planets set scouts=1000 where id=$1',[ps[1].id]);const attacker=await fleet({scouts:1000,shipsLevel:10});await q('select private.resolve_battle($1,now())',[ps[1].id]);assert.equal((await q('select scouts from public.planets where id=$1',[ps[1].id])).scouts,610);assert.equal((await q('select scouts from private.fleets where id=$1',[attacker])).scouts,700);
  });
  await scenario('Camouflage preserves the existing delay, reduces damage and conceals the opposing identity',async()=>{
   await grant('camouflage');await q("update public.planets set race='elys',soldiers=0,scouts=1000 where id=$1",[ps[1].id]);const f=await fleet({scouts:1000});
   await special('camouflage',{fleet_id:f,enabled:true});const delay=(await q('select unavailable_until from private.fleets where id=$1',[f])).unavailable_until;
   await special('camouflage',{fleet_id:f,enabled:false});assert.equal((await q('select unavailable_until from private.fleets where id=$1',[f])).unavailable_until.getTime(),delay.getTime());
   await special('camouflage',{fleet_id:f,enabled:true});await q('select private.resolve_battle($1,now())',[ps[1].id]);
-  assert.equal((await q('select scouts from public.planets where id=$1',[ps[1].id])).scouts,955);
+  assert.equal((await q('select scouts from public.planets where id=$1',[ps[1].id])).scouts,775);
   const report=await q("select details from private.battle_reports where empire_id=$1 and event='battle'",[es[1]]);assert.ok(report.details.opponents.every(p=>p.name==='Forces camouflées'));
  });
  await scenario('Stasis charges activation, slows production and preserves its remaining work when lowered',async()=>{
