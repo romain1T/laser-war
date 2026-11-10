@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import {militaryTestDatabase} from '../scripts/test-military-sql.mjs';
 import {travelSeconds,transitView,missionView} from '../dist/military.js';
 
-test('Transit presentation exposes redirect orders and seven-day diagonal travel',()=>{
- assert.equal(travelSeconds(0),3600);assert.equal(travelSeconds(Math.sqrt(2000000)),604800);
+test('Transit presentation exposes redirect orders and three-and-a-half-day diagonal travel',()=>{
+ assert.equal(travelSeconds(0),1800);assert.equal(travelSeconds(Math.sqrt(2000000)),302400);
  const f={id:'f',name:'<script>',status:'transit',mission:'attack',origin:'A',destination:'B',departed_at:new Date(Date.now()-3600000),arrives_at:new Date(Date.now()+3600000),scouts:1,bombers:0,fighters:0,soldiers:0,ground_soldiers:0};
  assert.match(transitView({fleets:[f]}),/Changer de destination/);assert.doesNotMatch(transitView({fleets:[f]}),/<script>/);assert.match(missionView(f,[]),/data-military="redirect"/);
 });

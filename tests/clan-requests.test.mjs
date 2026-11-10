@@ -10,7 +10,7 @@ import {helpTip,fortificationHelp,paranoiaHelp} from '../dist/help-tips.js';
 test('Political cooldown warning precedes choices; map zoom-out adds a dead margin without moving worlds',()=>{
  const p={id:'p',governance:'conseil',civilization:1,trade_capacity:0,energy:0,energy_max:10};
  const html=planetManagementSections(p,null,null);assert.ok(html.indexOf('pendant 3 jours')<html.indexOf('class="governance-choices"'));
- const map=galaxyView([{id:'edge',designation:'Edge',x:1000,y:1000,civilization:1}],null,.5);assert.match(map,/viewBox="-590 -590 2180 2180"/);assert.match(map,/translate\(1000,1000\)/);assert.match(map,/data-zoom="-1" disabled/);assert.doesNotMatch(galaxyView([],null,1),/data-zoom="-1" disabled/);
+ const map=galaxyView([{id:'edge',designation:'Edge',x:1000,y:1000,civilization:1}],null,.5);assert.match(map,/viewBox="-1180 -1180 4360 4360"/);assert.match(map,/translate\(2000,2000\)/);assert.match(map,/data-zoom="-1" disabled/);assert.doesNotMatch(galaxyView([],null,1),/data-zoom="-1" disabled/);
  assert.match(helpTip('tip','Aide',fortificationHelp),/role="tooltip"/);assert.match(paranoiaHelp,/arrivée/);assert.match(helpTip('tip','Aide','<img>'),/&lt;img&gt;/);
 });
 

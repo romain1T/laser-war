@@ -4,8 +4,8 @@ import {militaryTestDatabase} from '../scripts/test-military-sql.mjs';
 import {militaryDestinations,travelSeconds,militaryView,battleReportsView,assemblyQuote} from '../dist/military.js';
 test('Military destinations support nearest fifteen and distant named search',()=>{
  const worlds=Array.from({length:30},(_,i)=>({id:String(i),designation:i===29?'Orion':'Monde '+i,x:i*10,y:0}));
- assert.equal(militaryDestinations(worlds,'0').length,15);assert.equal(militaryDestinations(worlds,'0')[0].id,'1');assert.equal(militaryDestinations(worlds,'0','orion')[0].id,'29');assert.equal(travelSeconds(Math.sqrt(2000000)),604800);
- assert.equal(travelSeconds(0),3600);
+ assert.equal(militaryDestinations(worlds,'0').length,15);assert.equal(militaryDestinations(worlds,'0')[0].id,'1');assert.equal(militaryDestinations(worlds,'0','orion')[0].id,'29');assert.equal(travelSeconds(Math.sqrt(2000000)),302400);
+ assert.equal(travelSeconds(0),1800);
 });
 test('Military interface escapes names and keeps hidden ground forces absent',()=>{
  const html=battleReportsView({reports:[{id:'r',planet:'<img onerror=x>',event:'battle',occurred_at:'2026-11-07T00:00:00Z',details:{mission:'attack',before:{},after:{},enemy_space:{},enemy_ground:null}}]});assert.doesNotMatch(html,/<img onerror/);assert.match(html,/Forces au sol non observées/);

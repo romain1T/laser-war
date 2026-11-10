@@ -39,7 +39,7 @@ test('Research and special projects enforce ownership, timing, costs and conserv
   assert.ok((await q('select cancelled_at from private.research_jobs where id=$1',[a.id])).cancelled_at);assert.equal((await q("select private.tech_level($1,'infiltration') n",[es[0]])).n,1);
  });
  await scenario('Travel, exploitation, TP and storage levels apply only their researched effects',async()=>{
-  assert.equal((await q('select private.player_travel_seconds($1,0) n',[es[0]])).n,3600);await grant('travel',3);assert.equal((await q('select private.player_travel_seconds($1,0) n',[es[0]])).n,2211);
+  assert.equal((await q('select private.player_travel_seconds($1,0) n',[es[0]])).n,1800);await grant('travel',3);assert.equal((await q('select private.player_travel_seconds($1,0) n',[es[0]])).n,1106);
   const base=(await q('select private.capacity_price_for($1,30) n',[ps[0].id])).n;await grant('workers_1');assert.equal((await q('select private.capacity_price_for($1,30) n',[ps[0].id])).n,Math.ceil(base*.7));
   await q('update public.planets set civilization=5 where id=$1',[ps[0].id]);assert.equal((await q('select private.capacity_price_for($1,30) n',[ps[0].id])).n,base);
   await grant('energy');await q('update public.planets set energy=10 where id=$1',[ps[0].id]);await assert.rejects(tech('energy_capacity',{planet_id:ps[0].id,quantity:1,expected_capacity:10}),/invalide/);

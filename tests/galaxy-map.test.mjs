@@ -16,7 +16,7 @@ test('Every world displays civilization, tagged worlds alone display clan rings 
  assert.equal(clanColor({...signals[0],clan_name:null}),null);
  assert.equal(clanColor({...signals[0],clan_color:'red;display:none'}),null);
  assert.equal(galaxyBackground(),galaxyBackground());
- assert.match(html,/translate\(100,200\)/);
+ assert.match(html,/translate\(200,400\)/);
 });
 
 test('Foreign named worlds display their names without a clan tag or selection',()=>{
