@@ -11,8 +11,15 @@ importers:
       '@supabase/supabase-js':
         specifier: 2.119.0
         version: 2.119.0
+    devDependencies:
+      '@electric-sql/pglite':
+        specifier: 0.3.14
+        version: 0.3.14
 
 packages:
+
+  '@electric-sql/pglite@0.3.14':
+    resolution: {integrity: sha512-3DB258dhqdsArOI1fIt7cb9RpUOgcDg5hXWVgVHAeqVQ/qxtFy605QKs4gx6mFq3jWsSPqDN8TgSEsqC3OfV9Q==}
 
   '@supabase/auth-js@2.119.0':
     resolution: {integrity: sha512-WI7KqJRxqZjm77PlRO/VfKretL4SG8g8stWfBmpyx9To+fFapZlSbXA8QkduoMvr72rRpIF24ZLrjktBrp+ZFA==}
@@ -54,6 +61,8 @@ packages:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
 snapshots:
+
+  '@electric-sql/pglite@0.3.14': {}
 
   '@supabase/auth-js@2.119.0':
     dependencies:

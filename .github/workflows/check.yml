@@ -8,8 +8,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+      - run: pnpm install --frozen-lockfile
       - run: node --check dist/app.js
       - run: node --check dist/domain.js
       - run: node --check dist/clans.js
       - run: node --check dist/galaxy.js
+      - run: node --check dist/economy.js
+      - run: node --check dist/art.js
+      - run: node --check dist/help-tips.js
+      - run: node --check dist/operations.js
+      - run: node --check dist/reports.js
+      - run: node --check dist/military.js
+      - run: node --check dist/progression.js
+      - run: node --check dist/planets.js
+      - run: node --check dist/social.js
+      - run: node --check dist/technologies.js
+      - run: node --check dist/research-tree.js
+      - run: node --check dist/technology-actions.js
       - run: node --test tests/*.test.mjs
