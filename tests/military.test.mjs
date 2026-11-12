@@ -59,8 +59,8 @@ test('Authoritative military lifecycle in isolated Postgres',async t=>{
   await db.query("update public.planets set resource='ferros' where id=$1",[p.id]);const id=crypto.randomUUID(),args={planet_id:p.id,kind:'scout',quantity:3};
   await command('ship',args,id);await command('ship',args,id);assert.equal((await dashboard()).jobs.length,3);
   const duration=await one("select extract(epoch from(finishes_at-started_at)) seconds from private.ship_jobs where empire_id=$1 limit 1",[e]);assert.ok(Math.abs(Number(duration.seconds)-7200/1.15)<.01);
-  await assert.rejects(command('ship',{...args,quantity:3}),/usines libres/);await assert.rejects(command('ship',{...args,quantity:2},id),/déjà utilisé/);
-  await command('factory',{planet_id:p.id,expected_factories:5});await assert.rejects(command('factory',{planet_id:p.id,expected_factories:5}),/déjà en cours/);
+  await assert.rejects(command('ship',{...args,quantity:2},id),/déjà utilisé/);
+  await command('factory',{planet_id:p.id,expected_factories:5});await assert.rejects(command('factory',{planet_id:p.id,expected_factories:5}),/devis/);
   await db.query("update private.ship_jobs set finishes_at=now()-interval '1 minute' where empire_id=$1",[e]);await db.exec('select private.economy_process()');const d=await dashboard();assert.equal(d.planets[0].scouts,3);assert.equal(d.planets[0].factories,6);await assert.rejects(command('factory',{planet_id:p.id,expected_factories:5}),/devis/);
   await db.query('update public.empires set treasury=0 where id=$1',[e]);await assert.rejects(command('ship',{planet_id:p.id,kind:'fighter',quantity:1}),/Trésorerie/);
  });

@@ -1,4 +1,4 @@
 import {escapeHtml as h} from './domain.js';
 export const fortificationHelp='La fortification commence 7 jours après une conquête. Elle atteint +60 % après 2 mois, puis son maximum de +95 % après 5 mois. Elle renforce les armées défensives au sol et leurs tirs vers l’espace. Une conquête militaire remet le bonus à zéro.';
-export const paranoiaHelp='À l’arrivée, une flotte en défense appartenant à un autre joueur passe en attaque si son propriétaire ne partage pas votre clan. Vos propres flottes et celles de votre clan restent en défense.';
+export const paranoiaHelp='Dès l’activation du mode et à chaque arrivée, une flotte étrangère en défense, même déjà stationnée, passe en attaque si son propriétaire ne partage pas votre clan. Vos propres flottes et celles de votre clan restent en défense.';
 export function helpTip(id,label,text,end=false){return `<span class="help-tip ${end?'tip-end':''}"><button type="button" class="help-tip-trigger" aria-label="${h(label)}" aria-describedby="${h(id)}">?</button><span class="help-tip-content" role="tooltip" id="${h(id)}">${h(text)}</span></span>`;}
