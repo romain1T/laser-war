@@ -29,7 +29,7 @@ function routeGraphic(l){
  return `<div class="route-graphic target-capacity"><div class="capacity-track" role="img" aria-label="${h(l.name)} : ${l.quantity} capacités dans cette liaison, ${Number(l.available)||0} libres">${capacityBlocks(l.quantity,'engaged')}${capacityBlocks(l.available||0,'free')}</div><strong class="available-capacity">+${Number(l.available)||0}</strong></div>`;
 }
 export function tradeTargetIdentity(l){
- const art=planetArt(l.appearance||l.race+'_'+l.resource),population=l.population==null?'—':new Intl.NumberFormat('en',{notation:'compact',maximumFractionDigits:1}).format(Number(l.population));
+ const art=planetArt(l.appearance||l.race+'_'+l.resource),population=l.population==null?'—':new Intl.NumberFormat('en',{notation:'compact',minimumFractionDigits:1,maximumFractionDigits:2}).format(Number(l.population));
  return `<div class="route-target">${art?`<img class="route-planet-art" src="${art}" alt="${h(l.name)}" width="100" height="100" loading="lazy">`:''}<div><span class="route-state ${l.status==='active'?'active':'pending'}">${l.status==='active'?'LIAISON ACTIVE':l.can_review?'DEMANDE À EXAMINER':'EN ATTENTE'}</span><h3>${h(label(l))}</h3><div class="route-target-traits"><span>${badge('race',l.race)}${h(races[l.race]?.name||'—')}</span><span>${badge('resource',l.resource)}${h(resources[l.resource]?.name||'—')}</span><span>${civilizationBadge()}${Number(l.civilization)||1}</span><span title="${number(l.population||0)} habitants">${badge('pop',l.race)}${population}</span></div><p>${l.quantity} capacités · distance ${new Intl.NumberFormat('fr-FR',{maximumFractionDigits:2}).format(l.distance/50)}${l.expires_at?` · expiration ${time(l.expires_at)}`:''}</p></div></div>`;
 }
 function routeCapacityControls(l){

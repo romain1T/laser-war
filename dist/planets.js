@@ -2,7 +2,7 @@ import {escapeHtml as h,number} from './domain.js';
 import {civilizationBadge} from './art.js';
 import {civilizationInvestmentView} from './progression.js';
 import {capacityBlocks} from './economy.js';
-export const compactPopulation=value=>new Intl.NumberFormat('en',{notation:'compact',maximumFractionDigits:1}).format(Math.max(0,Number(value)||0));
+export const compactPopulation=value=>new Intl.NumberFormat('en',{notation:'compact',minimumFractionDigits:1,maximumFractionDigits:2}).format(Math.max(0,Number(value)||0));
 const money=n=>number(n)+' Þ';
 const errorBox='<p class="form-error" role="alert" hidden></p>';
 export function planetCapacityQuote(capacity,quantity,prices){const q=Number(quantity);if(!Number.isInteger(q)||q<1||q>200-capacity)return null;let sum=0;for(let i=1;i<=q;i++){const price=Number(prices[capacity+i]);if(!Number.isFinite(price))return null;sum+=price;}return sum;}

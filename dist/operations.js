@@ -1,7 +1,7 @@
 import {escapeHtml as h,number} from './domain.js';
 import {planetArt,badge,civilizationBadge,shipArt} from './art.js';
 import {recentBattlesView} from './reports.js';
-const pop=n=>new Intl.NumberFormat('en',{notation:'compact',maximumFractionDigits:1}).format(Number(n)||0);
+const pop=n=>new Intl.NumberFormat('en',{notation:'compact',minimumFractionDigits:1,maximumFractionDigits:2}).format(Number(n)||0);
 const fields=[['soldiers','Soldats'],['scouts','Scouts'],['bombers','Bombardiers'],['fighters','Destroyers']];
 export function sumForces(forces){return forces.reduce((t,f)=>{for(const k of ['scouts','bombers','fighters'])t[k]+=Number(f[k])||0;t.ground+=Number(f.ground_soldiers)||0;t.embarked+=Number(f.soldiers)||0;t.soldiers=t.ground+t.embarked;if(f.kind==='fleet'&&Number(f.scouts)+Number(f.bombers)+Number(f.fighters)>0)t.fleets++;return t;},{soldiers:0,scouts:0,bombers:0,fighters:0,ground:0,embarked:0,fleets:0});}
 export function forceCamps(p){const side=p.stance==='attack'?'attack':'defend',forces=p.forces||[];return {own:sumForces(forces.filter(f=>f.is_own)),allies:sumForces(forces.filter(f=>!f.is_own&&f.mission===side)),enemies:sumForces(forces.filter(f=>!f.is_own&&f.mission!==side))};}
