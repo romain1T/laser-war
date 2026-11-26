@@ -85,3 +85,8 @@ Le moteur militaire et ses valeurs provisoires alpha ont été autorisés explic
 ## Grades et progression
 
 Score actuel : 100 points par niveau de civilisation contrôlé + production militaire vérifiable (20 % de la valeur des unités, plafonnée à 40 % des points de civilisation) + destructions ennemies attribuées selon la contribution. Garnisons initiales et transferts ne créent pas de mérite. Les pertes infligées à soi-même ou à son clan ne donnent aucun point. Fleet Admiral : 10 000 points, trois mondes civ 15 et 2 000 points de combat. Les titres suivent le score et peuvent baisser avec les pertes territoriales ; aucun bonus caché.
+
+
+## Références de design fournies par le créateur
+
+Les canvases et exports HTML sont des références d’organisation et d’ambiance, et non des spécifications à reproduire au pixel près. Réajuster espacements, proportions et alignements pour un rendu cohérent, compact, lisible et responsive. Conserver les assets du jeu, ses règles, ses données réelles et ses fonctionnalités. Traiter une page à la fois ; ne pas importer les runtimes du logiciel de design. Les valeurs fictives des maquettes ne doivent jamais remplacer les données du jeu.

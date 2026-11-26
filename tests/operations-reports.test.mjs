@@ -8,11 +8,11 @@ test('Overview counts each stationed unit once and distinguishes opposing camps'
  const p={id:'p',name:'<script>',race:'vael',resource:'aurite',population:1800000,civilization:2,is_own:true,stance:'own',trade_exploited:4,trade_capacity:10,forces:[{is_own:true,kind:'reserve',mission:'defend',scouts:2,ground_soldiers:20},{is_own:true,kind:'fleet',mission:'defend',bombers:1,fighters:1,soldiers:5,ground_soldiers:3,scouts:0},{is_own:false,kind:'fleet',mission:'defend',race:'elys',scouts:3,ground_soldiers:7},{is_own:false,kind:'fleet',mission:'attack',race:'khar',scouts:4,ground_soldiers:9}]};
  const t=forceCamps(p);assert.equal(t.own.soldiers,28);assert.equal(t.own.scouts,2);assert.equal(t.own.fleets,1);assert.equal(t.allies.soldiers,7);assert.equal(t.enemies.scouts,4);
  const data={locations:[p],planets:[{id:'p',factories:5,energy:7,energy_max:15}],jobs:[{planet_id:'p',kind:'scout',finishes_at:'2026-11-10T12:00:00Z'}]};
- const html=militaryOverviewView(data);assert.doesNotMatch(html,/<script>/);assert.match(html,/data-military-location="p"/);assert.match(html,/4 libres/);assert.match(commandPlanetOverview(data),/4 \/ 10/);
+ const html=militaryOverviewView(data);assert.doesNotMatch(html,/<script>/);assert.match(html,/data-military-location="p"/);assert.match(html,/Vitesse ×1/);assert.match(html,/1 en file/);assert.match(html,/military-unit-row/);assert.match(commandPlanetOverview(data),/4 \/ 10/);
  assert.match(html,/force-race.*race_elys\.webp/);assert.match(html,/force-race.*race_khar\.webp/);
  assert.match(commandPlanetOverview(data),/Énergie <b>7 \/ 15/);assert.match(commandPlanetOverview(data),/value="7" max="15" aria-label="Énergie disponible"/);
  const empty={...data,locations:[{...p,forces:p.forces.filter(f=>f.is_own)}]};
- for(const view of [militaryOverviewView(empty),commandPlanetOverview(empty)]){assert.doesNotMatch(view,/overview-force allied|overview-force hostile|force-race/);assert.match(view,/Vos forces/);}
+ for(const view of [militaryOverviewView(empty),commandPlanetOverview(empty)]){assert.doesNotMatch(view,/overview-force allied|overview-force hostile|class="allied">Alliés|class="hostile">Ennemis/);assert.match(view,/Vous|Vos forces/);}
 
 });
 test('Reports cap legacy lists at fifteen, recent fights exclude arrivals, unknown losses remain unknown',()=>{
