@@ -257,13 +257,11 @@ function bindMilitary(){
  }));bindForms(document);
  const openMission=(fleet,scroll=true)=>{
   const panel=document.querySelector('#mission-orders');if(!fleet||!panel)return;
-  const choice=document.querySelector('#fleet-command-choice');if(choice&&[...choice.options].some(o=>o.value===fleet.id))choice.value=fleet.id;
   const locked=fleet.status==='stationed'&&new Date(fleet.unavailable_until)>new Date();
   panel.hidden=false;panel.innerHTML=(locked?'<p class="na-status">Flotte indisponible jusqu’au '+new Date(fleet.unavailable_until).toLocaleString('fr-FR')+'.</p>':'')+'<fieldset '+(locked?'disabled':'')+'>'+missionView(fleet,state.signals)+'</fieldset>';
-  bindMissionDestinations(panel,state.signals,fleet.planet_id,fleet.status==='transit'?fleet.position:null);bindForms(panel);panel.querySelector('#close-mission').hidden=!!choice;panel.querySelector('#close-mission').onclick=()=>{panel.hidden=true;};if(scroll)panel.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});
+  bindMissionDestinations(panel,state.signals,fleet.planet_id,fleet.status==='transit'?fleet.position:null);bindForms(panel);panel.querySelector('#close-mission').onclick=()=>{panel.hidden=true;};if(scroll)panel.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});
  };
  document.querySelectorAll('[data-mission-fleet]').forEach(button=>button.addEventListener('click',()=>openMission(state.military.fleets.find(f=>f.id===button.dataset.missionFleet))));
- const fleetChoice=document.querySelector('#fleet-command-choice');if(fleetChoice){fleetChoice.onchange=()=>openMission(state.military.fleets.find(f=>f.id===fleetChoice.value),false);openMission(state.military.fleets.find(f=>f.id===fleetChoice.value),false);}
  document.querySelector('#retry-military')?.addEventListener('click',async e=>{e.currentTarget.disabled=true;try{const p=pendingMilitaryCommand();if(p)await sendMilitaryCommand(p.payload.action,p.payload.args,p);}catch(error){toast(errorText(error));renderGame();}});
 }
 function pendingGovernanceCommand(){try{return JSON.parse(sessionStorage.getItem('lw-governance-command:'+state.user.id)||'null');}catch{return null;}}
