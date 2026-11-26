@@ -5,7 +5,7 @@ import {tradeView} from '../dist/economy.js';
 test('Trade routes show only the target with its art, traits, population and exact capacity blocks',()=>{
  const link={id:'link',other_id:'target',name:'Signal 47',race:'khar',resource:'aurite',population:1800000,civilization:3,appearance:'khar_aurite',quantity:4,available:1,status:'active',distance:382,net_daily:4473};
  const html=tradeView({enabled:true,planet:{id:'own',name:'Marseille Prime',capacity:5,occupied:4,reserved:0},destinations:[],prices:[],links:[link]},[{id:'own',name:'Marseille Prime'}],1000,null);
- const route=html.split('<article class="trade-route">')[1];assert.ok(route);assert.ok(!route.includes('Marseille Prime'));assert.ok(route.includes('khar_aurite.webp'));assert.ok(route.includes('1.8M'));assert.ok(route.includes('Khar'));assert.ok(route.includes('Aurite'));assert.equal((route.match(/engaged unit/g)||[]).length,4);assert.equal((route.match(/free unit/g)||[]).length,1);
+ const route=html.split('<article class="trade-route"')[1];assert.ok(route);assert.ok(!route.includes('Marseille Prime'));assert.ok(route.includes('khar_aurite.webp'));assert.ok(route.includes('1.8M'));assert.ok(route.includes('Khar'));assert.ok(route.includes('Aurite'));assert.equal((route.match(/engaged unit/g)||[]).length,4);assert.equal((route.match(/free unit/g)||[]).length,1);
 });
 test('Generated worlds are Signals and trade traits disclose only the linked target',async()=>{
  const db=await militaryTestDatabase();const q=async(sql,args=[])=>(await db.query(sql,args)).rows[0];
