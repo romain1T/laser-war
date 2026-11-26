@@ -35,7 +35,7 @@ test('Stationed fleet totals and foreign force visibility are authorized by phys
   assert.equal(b.attack.ships,4);assert.equal(b.forces.filter(x=>!x.is_own).length,2);
   for(const f of b.forces){for(const key of ['id','empire_id','owner_empire_id','player_id','origin_id','supply_planet','destination_id'])assert.equal(key in f,false);}
   const foreignView=militaryView(d,b.id);assert.match(foreignView,/Forces étrangères/);assert.match(foreignView,/Prime 1 · En défense/);assert.doesNotMatch(foreignView,/data-military="(?:ship|assemble|factory|recruitment|paranoid)"/);assert.match(foreignView,/khar_scout\.webp/);assert.doesNotMatch(foreignView,/ship-cockpit|◇/);
-  const ownView=militaryView(d,ps[0].id);assert.match(ownView,/TOTAL DE VOS FORCES PRÉSENTES/);assert.doesNotMatch(ownView,/data-mission-fleet/);
+  const ownView=militaryView(d,ps[0].id);assert.match(ownView,/Rapport de force/);assert.doesNotMatch(ownView,/data-mission-fleet/);
   assert.match(militaryCommandView(d),/Positions extérieures/);assert.match(militaryCommandView(d),/data-military-location/);
   await q("update private.fleets set status='disbanded' where empire_id=$1 and planet_id=$2",[es[0],ps[1].id]);assert.equal((await view()).locations.some(x=>x.id===ps[1].id),false);
  });
