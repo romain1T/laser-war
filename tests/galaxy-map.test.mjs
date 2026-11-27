@@ -25,13 +25,14 @@ test('Foreign named worlds display their names without a clan tag or selection',
 });
 
 
-test('Twenty galaxies fill a compact five by four map with distinct deterministic appearances',()=>{
+test('A single animated galaxy covers the unchanged compact map',()=>{
  const html=galaxyView([],null,1);
  assert.equal(MAP_SIZE,1500);assert.equal(MAP_HEIGHT,1200);
  assert.equal(MAP_COLUMNS*MAP_ROWS,20);assert.equal(CLUSTER_SIZE,3*CELL_SIZE);
- assert.equal((html.match(/class="galaxy-cluster"/g)||[]).length,20);
- assert.equal((html.match(/<symbol id="cluster-galaxy-/g)||[]).length,5);
- assert.equal(new Set(Array.from({length:5},(_,i)=>galaxyBackground(i))).size,5);
+ assert.equal((html.match(/class="galaxy-backdrop"/g)||[]).length,1);
+ assert.equal((html.match(/class="galaxy-spiral"/g)||[]).length,1);
+ assert.doesNotMatch(html,/cluster-galaxy-|class="galaxy-cluster"/);
+ assert.match(html,/transform="scale\(1.5 1.2\)"/);
  assert.match(html,/width="1500" height="1200" fill="url\(#mapgrid\)"/);
  assert.match(html,/class="map-coordinate">15<\/text>/);assert.match(html,/1 case = 1 unité/);
  const detail=galaxyView([{id:'p',designation:'P',x:50,y:100,civilization:1}], 'p',1);
