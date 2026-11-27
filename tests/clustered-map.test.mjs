@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import {militaryTestDatabase} from '../scripts/test-military-sql.mjs';
 
 test('Real clustered geography bounds density and preserves fleet arrivals and planet identity',async()=>{
- let original,flight;
+ let original,flight,clustersBefore;
  const db=await militaryTestDatabase({beforeMigration:async(db,file)=>{
+  if(file.endsWith('_compact_twenty_clusters.sql')){clustersBefore=(await db.query('select id,floor(x/150) cx,floor(y/150) cy from public.planets where destroyed_at is null order by serial')).rows;return;}
   if(!file.endsWith('_clustered_galactic_map.sql'))return;
   const uid='11111111-1111-4111-8111-111111111111';
   await db.query('insert into auth.users(id) values($1)',[uid]);
@@ -22,15 +23,20 @@ test('Real clustered geography bounds density and preserves fleet arrivals and p
   const rows=(await db.query('select id,name,owner_empire_id owner,x,y from public.planets where destroyed_at is null order by serial')).rows;
   assert.deepEqual(rows.map(p=>({id:p.id,name:p.name,owner:p.owner})),original);
   const cells=new Map(),clusters=new Map();
-  for(const p of rows){assert.ok(p.x>=0&&p.x<2000&&p.y>=0&&p.y<2000);const cell=`${Math.floor(p.x/50)},${Math.floor(p.y/50)}`,cluster=`${Math.floor(p.x/150)},${Math.floor(p.y/150)}`;cells.set(cell,(cells.get(cell)||0)+1);clusters.set(cluster,(clusters.get(cluster)||0)+1);}
+  for(const p of rows){assert.ok(p.x>=0&&p.x<750&&p.y>=0&&p.y<600);const cell=`${Math.floor(p.x/50)},${Math.floor(p.y/50)}`,cluster=`${Math.floor(p.x/150)},${Math.floor(p.y/150)}`;cells.set(cell,(cells.get(cell)||0)+1);clusters.set(cluster,(clusters.get(cluster)||0)+1);}
+  const grouped=ps=>Object.values(Object.groupBy(ps,p=>`${p.cx},${p.cy}`)).map(g=>g.map(p=>p.id).sort().join(',')).sort();
+  assert.deepEqual(grouped(rows.map(p=>({...p,cx:Math.floor(p.x/150),cy:Math.floor(p.y/150)}))),grouped(clustersBefore));
   assert.equal(rows.length,136);assert.equal(clusters.size,11);
   assert.ok([...cells.values()].every(n=>n<=2));assert.ok([...clusters.values()].every(n=>n>=11&&n<=15));
   const f=(await db.query('select * from private.fleets where id=$1',[flight.id])).rows[0];
   assert.equal(f.arrives_at.getTime(),flight.arrives_at.getTime());assert.equal(f.scouts,1);
-  assert.ok(Math.abs(f.route_x-flight.x*2)<.01);assert.ok(Math.abs(f.route_y-flight.y*2)<.01);
+  assert.ok(Math.abs(f.route_x-flight.x*.75)<.01);assert.ok(Math.abs(f.route_y-flight.y*.6)<.01);
   await db.exec(`insert into public.planets(season_id,race,resource) select (select id from public.seasons limit 1),'vael','aurite' from generate_series(1,20);`);
   const maxCell=(await db.query('select max(n)::int n from (select count(*) n from public.planets where destroyed_at is null group by floor(x/50),floor(y/50))s')).rows[0].n;assert.equal(maxCell,2);
   const unchanged=(await db.query('select id,x,y from public.planets where id=any($1::uuid[]) order by serial',[rows.map(p=>p.id)])).rows;assert.deepEqual(unchanged,rows.map(({id,x,y})=>({id,x,y})));
+  await db.exec(`insert into public.planets(season_id,race,resource) select (select id from public.seasons limit 1),'vael','aurite' from generate_series(1,144);`);
+  const capacity=(await db.query('select count(*)::int clusters,min(n)::int smallest,max(n)::int largest from (select count(*) n from public.planets where destroyed_at is null group by floor(x/150),floor(y/150))s')).rows[0];assert.deepEqual(capacity,{clusters:20,smallest:15,largest:15});
+  await assert.rejects(db.exec(`insert into public.planets(season_id,race,resource) select id,'vael','aurite' from public.seasons limit 1`),/carte galactique est pleine/);
   await db.exec(`set role authenticated;`);await assert.rejects(db.query('select private.place_clustered_planet()'));
  }finally{await db.close();}
 });
