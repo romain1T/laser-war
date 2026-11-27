@@ -17,7 +17,7 @@ test('Overview counts each stationed unit once and distinguishes opposing camps'
 });
 test('Reports cap legacy lists at fifteen, recent fights exclude arrivals, unknown losses remain unknown',()=>{
  const reports=Array.from({length:20},(_,i)=>({id:String(i),event:i===0?'arrival':'battle',planet:'A',occurred_at:'2026-11-08T12:00:00Z',details:{before:{soldiers:3},after:{soldiers:2},enemy_ground:null}}));
- const html=battleReportsView({reports});assert.equal((html.match(/<details /g)||[]).length,15);assert.match(html,/Pertes non enregistrées/);assert.match(html,/Forces au sol non observées/);assert.equal((recentBattlesView({reports}).match(/<details /g)||[]).length,5);
+ const html=battleReportsView({reports});assert.equal((html.match(/<details class="battle-report/g)||[]).length,15);assert.match(html,/Pertes non enregistrées/);assert.match(html,/Forces au sol non observées/);assert.equal((recentBattlesView({reports}).match(/<details class="battle-report/g)||[]).length,5);
  assert.doesNotMatch(html,/Forces alliées/);
  const allies={before:{soldiers:5},after:{soldiers:0}};
  assert.match(battleReportsView({reports:[{...reports[1],details:{...reports[1].details,sides:{allies}}}]}),/Forces alliées/);

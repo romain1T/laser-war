@@ -2,7 +2,7 @@
 
 ## Validées par le master prompt
 
-- Stratégie spatiale multijoueur asynchrone ; session d'un an ; 12 planètes maximum à terme.
+- Stratégie spatiale multijoueur asynchrone ; session d'un an ; aucune limite de planètes contrôlées.
 - Race et ressource attachées aux planètes. Aucun choix de race à l'inscription.
 - Compte email/mot de passe, pseudo, récupération et avatar.
 - Une seule possibilité de nommer la planète de départ ; nom neutre unique Terra_Nullius_<serial>.
@@ -56,7 +56,7 @@ Le bonus Aurite est actif pour les revenus civils et le commerce net. Les bonus 
 
 ## À décider / développer
 
-Interprétation de « six domaines » dans la page Planètes (la limite d'empire reste 12), valeurs de départ, progression des grades, équations économiques et simulation d'un an. L'arbre Hyperiums est une référence à adapter : bâtiments, noms de races, classes de vaisseaux et protections mentionnées ne constituent pas des règles automatiquement adoptées.
+Interprétation de « six domaines » dans la page Planètes (sans limite de planètes par empire), valeurs de départ, progression des grades, équations économiques et simulation d'un an. L'arbre Hyperiums est une référence à adapter : bâtiments, noms de races, classes de vaisseaux et protections mentionnées ne constituent pas des règles automatiquement adoptées.
 
 Armées, usines, flottes, déplacements, combats horaires, conquêtes et rapports persistants sont actifs. Technologies, énergie utilisable, capitale, reconnaissance avancée et forum restent à venir.
 

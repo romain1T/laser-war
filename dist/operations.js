@@ -1,3 +1,4 @@
+import {forceLevelGroups,unitLevel} from './unit-levels.js';
 import {escapeHtml as h,number} from './domain.js';
 import {planetArt,badge,civilizationBadge,shipArt} from './art.js';
 import {recentBattlesView} from './reports.js';
@@ -26,8 +27,8 @@ function militaryWorldCard(p,data){
  const camps=[{key:'own',name:'Vous',tone:'own',match:f=>f.is_own},...(hasForces(totals.allies)?[{key:'allies',name:p.stance==='mixed'?'Autres : défense':'Alliés',tone:'allied',match:f=>!f.is_own&&f.mission===side}]:[]),...(hasForces(totals.enemies)?[{key:'enemies',name:p.stance==='mixed'?'Autres : attaque':'Ennemis',tone:'hostile',match:f=>!f.is_own&&f.mission!==side}]:[])];
  const unitCount=(f,key)=>key==='soldiers'?Number(f.soldiers||0)+Number(f.ground_soldiers||0):Number(f[key]||0);
  const rows=fields.map(([key,label])=>{
-  const races=['elys','vael','khar'].map(race=>({race,counts:camps.map(c=>(p.forces||[]).filter(f=>c.match(f)&&(f.race||p.race)===race).reduce((n,f)=>n+unitCount(f,key),0))})).filter(r=>r.counts.some(n=>n>0));
-  return `<details class="military-unit-row"><summary class="military-matrix-row"><span class="military-unit-label"><i aria-hidden="true">›</i>${key==='soldiers'?badge('race',p.race):shipArt(p.race,key==='scouts'?'scout':key==='bombers'?'bomber':'fighter')}<span>${label}</span></span>${camps.map(c=>`<b class="${c.tone} ${totals[c.key][key]?'':'is-zero'}">${number(totals[c.key][key])}</b>`).join('')}</summary><div class="military-unit-breakdown">${races.length?races.map(r=>`<div class="military-matrix-row"><span class="force-race">${badge('race',r.race)}${h(r.race.charAt(0).toUpperCase()+r.race.slice(1))}</span>${r.counts.map((n,i)=>`<span class="${camps[i].tone} ${n?'':'is-zero'}">${n?number(n):'—'}</span>`).join('')}</div>`).join(''):'<p>Aucune unité de cette catégorie.</p>'}</div></details>`;
+  const races=forceLevelGroups(p.forces||[],key,p.race).map(g=>({...g,counts:camps.map(c=>(p.forces||[]).filter(f=>c.match(f)&&(f.race||p.race)===g.race&&(f[key==='soldiers'?'army_tech':'ship_tech']??null)===g.level).reduce((n,f)=>n+unitCount(f,key),0))}));
+  return `<details class="military-unit-row"><summary class="military-matrix-row"><span class="military-unit-label"><i aria-hidden="true">›</i>${key==='soldiers'?badge('race',p.race):shipArt(p.race,key==='scouts'?'scout':key==='bombers'?'bomber':'fighter')}<span>${label}</span></span>${camps.map(c=>`<b class="${c.tone} ${totals[c.key][key]?'':'is-zero'}">${number(totals[c.key][key])}</b>`).join('')}</summary><div class="military-unit-breakdown">${races.length?races.map(r=>`<div class="military-matrix-row"><span class="force-race">${badge('race',r.race)}${h(r.race.charAt(0).toUpperCase()+r.race.slice(1))}${unitLevel(r.level)}</span>${r.counts.map((n,i)=>`<span class="${camps[i].tone} ${n?'':'is-zero'}">${n?number(n):'—'}</span>`).join('')}</div>`).join(''):'<p>Aucune unité de cette catégorie.</p>'}</div></details>`;
  }).join('');
  const status=p.is_own?'Sous contrôle':p.stance==='mixed'?'Attaque & défense':p.stance==='attack'?'En attaque':'En défense';
  const nav=`data-page="fleets" data-military-location="${h(p.id)}"`;
