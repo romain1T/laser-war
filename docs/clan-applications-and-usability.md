@@ -1,0 +1,11 @@
+# Clans et finitions d'interface
+
+L'adhésion à un clan nécessite désormais l'acceptation de son chef. Les membres existants sont conservés. Une demande en attente n'accorde aucun accès au forum privé, aux avantages de clan ou aux tags. Chaque joueur peut maintenir une candidature active, l'annuler et en envoyer une autre. Le chef peut accepter ou refuser depuis Compte & clan. Les nouvelles requêtes possèdent un identifiant distinct ; une ancienne décision ne peut pas traiter une candidature ultérieure. Les décisions identiques sont rejouables sans double adhésion. Le changement de chef suit toujours le transfert au membre le plus ancien.
+
+Le tableau de bord privé des clans expose uniquement le clan de l'appelant, son annuaire s'il est membre, ses demandes sortantes, et les candidatures entrantes s'il est chef. Le candidat est identifié par pseudonyme et grade, sans exposer ses planètes avant acceptation. L'annuaire interne indique les pseudonymes, grades, rôle du chef, planètes contrôlées et état public/masqué des tags. Il apparaît dans Compte & clan et dans le forum privé du clan, jamais dans le forum public. Quitter le clan retire cet accès. Les tables restent privées avec RLS et aucun accès direct client.
+
+Le choix politique affiche son verrou de trois jours avant les boutons. Les infobulles Fortification et Mode paranoïaque sont accessibles au survol et au focus clavier ; leurs boutons ne soumettent aucun ordre. Elles expliquent respectivement l'ancienneté et le bonus défensif, et le basculement offensif des renforts étrangers sans clan commun à l'arrivée.
+
+La carte peut être réduite à 75 % et 50 %. Le cadre SVG s'étend autour des coordonnées réelles de l'univers, créant une marge vide sur les quatre côtés sans déplacer aucune planète ni modifier les distances. Cette marge permet de dégager les mondes couverts par le bandeau inférieur. Le zoom maximal reste 300 %.
+
+Validation : acceptation, refus, annulation, rejeu, permissions du chef, transfert de rôle, refus des avantages avant adhésion, confidentialité de l'annuaire, tags, forum privé, avertissement politique, bornes et coordonnées du dézoom. Les parcours navigateur utilisent deux comptes jetables autorisés, nettoyés après vérification.

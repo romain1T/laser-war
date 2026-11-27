@@ -1,0 +1,70 @@
+[
+  {
+    "name": "Cadet Astral",
+    "abbreviation": "Ast. Cdt.",
+    "threshold": 0,
+    "tier": 0
+  },
+  {
+    "name": "Aspirant de Flotte",
+    "abbreviation": "Flt. Asp.",
+    "threshold": 300,
+    "tier": 1
+  },
+  {
+    "name": "Enseigne Stellaire",
+    "abbreviation": "St. Ens.",
+    "threshold": 700,
+    "tier": 2
+  },
+  {
+    "name": "Lieutenant de Vaisseau",
+    "abbreviation": "Vsl. Lt.",
+    "threshold": 1250,
+    "tier": 3
+  },
+  {
+    "name": "Capitaine de Frégate",
+    "abbreviation": "Frg. Capt.",
+    "threshold": 1950,
+    "tier": 4
+  },
+  {
+    "name": "Capitaine de Croiseur",
+    "abbreviation": "Crs. Capt.",
+    "threshold": 2800,
+    "tier": 5
+  },
+  {
+    "name": "Commandeur d’Escadre",
+    "abbreviation": "Sq. Cmdr.",
+    "threshold": 3850,
+    "tier": 6
+  },
+  {
+    "name": "Commodore de Secteur",
+    "abbreviation": "Sct. Cmdr.",
+    "threshold": 5100,
+    "tier": 7
+  },
+  {
+    "name": "Contre-Amiral",
+    "abbreviation": "R. Adm.",
+    "threshold": 6550,
+    "tier": 8
+  },
+  {
+    "name": "Amiral de Flotte",
+    "abbreviation": "Flt. Adm.",
+    "threshold": 8200,
+    "tier": 9
+  },
+  {
+    "name": "Grand Amiral",
+    "abbreviation": "Gr. Adm.",
+    "threshold": 10000,
+    "tier": 10,
+    "advanced_worlds": 3,
+    "combat_required": 2000
+  }
+]

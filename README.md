@@ -1,4 +1,4 @@
-# Laser War · Alpha 0.1
+# Laser War · Alpha 0.2
 
 Jeu de stratégie spatiale asynchrone. Authentification Supabase, première planète persistante sans nom d'empire, portrait privé, clans, tags planétaires au choix, carte galactique protégée et interface responsive.
 
@@ -10,13 +10,13 @@ Node.js 22 ou plus. Aucun build requis pour le navigateur : `node scripts/serve.
 
 ## Base de données
 
-Migration SQL versionnée dans `supabase/migrations/`. Déjà appliquée au projet `qidkgtuvcvoztzfmflgw`. Ne pas la rejouer manuellement sur ce projet. `supabase/config.toml` décrit le développement local et ne configure pas automatiquement le projet hébergé. Les tables sont protégées par RLS ; les écritures de jeu passent par `found_empire`. Le client n'envoie ni prix, ni soldes, ni statistiques de départ.
+Migration SQL versionnée dans `supabase/migrations/`. Déjà appliquée au projet `qidkgtuvcvoztzfmflgw`. Ne pas la rejouer manuellement sur ce projet. `supabase/config.toml` décrit le développement local et ne configure pas automatiquement le projet hébergé. Les tables sont protégées par RLS ; les écritures de jeu passent par des RPC contrôlées. Le client n'envoie ni prix, ni soldes, ni statistiques de départ.
 
 `tests/database.sql` teste l'isolation de deux joueurs, les écritures refusées, l'unicité des pseudos, l'expansion de l'univers et l'idempotence. Les données de test restent dans une transaction annulée. Aucun compte de démonstration permanent n'est livré.
 
 `tests/live-api.mjs` vérifie un compte QA confirmé et jetable via l'API réelle : connexion, trois fondations simultanées, lecture persistante, écritures interdites, stockage privé et déconnexion. Les identifiants sont reçus sur stdin masqué et restent en mémoire. Ce test ne doit être lancé que contre un environnement de test avec un compte explicitement jetable.
 
-`tests/clans.sql` vérifie avec trois identités fictives la création/adhésion/départ, la succession, les répétitions réseau, le refus des commandes adverses et la confidentialité des tags masqués. Les fixtures sont annulées par rollback. `auto_trade` est sauvegardé par planète ; les liaisons et revenus restent à développer.
+`tests/clans.sql` vérifie avec trois identités fictives la création/adhésion/départ, la succession, les répétitions réseau, le refus des commandes adverses et la confidentialité des tags masqués. Les fixtures sont annulées par rollback. `auto_trade` est sauvegardé par planète ; les liaisons et revenus sont implémentés avec registre serveur et reprise hors connexion.
 
 ## E-mails : configuration hébergée
 

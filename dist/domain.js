@@ -1,12 +1,12 @@
 export const races = {
-  vael: { name:'Vael', icon:'◇', description:'Navigateurs stellaires', effect:'Puissance spatiale +15 % · puissance terrestre −15 %' },
-  khar: { name:'Khar', icon:'△', description:'Gardiens des mondes', effect:'Puissance terrestre +15 % · puissance spatiale −15 %' },
-  elys: { name:'Elys', icon:'◎', description:'Civilisation polyvalente', effect:'Puissances spatiale et terrestre équilibrées' }
+  vael: { art:'/assets/art/race_vael.webp', name:'Vael', icon:'◇', description:'Navigateurs stellaires', effect:'Puissance spatiale +15 % · puissance terrestre −15 %' },
+  khar: { art:'/assets/art/race_khar.webp', name:'Khar', icon:'△', description:'Gardiens des mondes', effect:'Puissance terrestre +15 % · puissance spatiale −15 %' },
+  elys: { art:'/assets/art/race_elys.webp', name:'Elys', icon:'◎', description:'Civilisation polyvalente', effect:'Puissances spatiale et terrestre équilibrées' }
 };
 export const resources = {
-  aurite: { name:'Aurite', icon:'◈', description:'Cristal économique', effect:'Commerce et revenus civils locaux +15 %' },
-  biomasse: { name:'Biomasse', icon:'❋', description:'Matrice biologique', effect:'Production automatique de soldats +15 %' },
-  ferros: { name:'Ferros', icon:'⬡', description:'Alliage industriel', effect:'Vitesse des chantiers +15 % · durée divisée par 1,15' }
+  aurite: { art:'/assets/art/resource_aurite.webp', name:'Aurite', icon:'◈', description:'Cristal économique', effect:'Commerce et revenus civils locaux +15 %' },
+  biomasse: { art:'/assets/art/resource_biomasse.webp', name:'Biomasse', icon:'❋', description:'Matrice biologique', effect:'Production automatique de soldats +15 %' },
+  ferros: { art:'/assets/art/resource_ferros.webp', name:'Ferros', icon:'⬡', description:'Alliage industriel', effect:'Vitesse des chantiers +15 % · durée divisée par 1,15' }
 };
 export const number = value => new Intl.NumberFormat('fr-FR').format(value);
 export const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
