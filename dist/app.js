@@ -314,7 +314,7 @@ setInterval(()=>{if(!state.user||!state.military||!['fleets','transit','alerts',
 
 function updateUnreadIndicators(){
  const flags={revenues:state.unread?.revenues?.unread,alerts:state.unread?.alerts?.unread,forum:state.unread?.['forum:public']?.unread||state.unread?.['forum:clan']?.unread,messages:state.unread?.messages?.unread};
- document.querySelectorAll('[data-page]').forEach(b=>{const unread=!!flags[b.dataset.page];b.classList.toggle('has-unread',unread);if(unread){b.setAttribute('data-unread','true');b.setAttribute('aria-description','Nouveaux éléments non lus');}else{b.removeAttribute('data-unread');b.removeAttribute('aria-description');}});
+ document.querySelectorAll('[data-page]').forEach(b=>{const unread=!!flags[b.dataset.page];b.classList.toggle('has-unread',unread);b.classList.toggle('has-combat-unread',b.dataset.page==='alerts'&&unread&&!!state.unread?.combat_unread);if(unread){b.setAttribute('data-unread','true');b.setAttribute('aria-description','Nouveaux éléments non lus');}else{b.removeAttribute('data-unread');b.removeAttribute('aria-description');}});
 }
 async function refreshStatus(){if(!state.user||!state.empire)return;const version=state.version;const {data,error}=await db.rpc('social_status');if(version!==state.version||error)return;state.unread=data;updateUnreadIndicators();}
 async function acknowledgePage(){const channel=state.page;if(!['revenues','alerts'].includes(channel)||!state.unread)return;

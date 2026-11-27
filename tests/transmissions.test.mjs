@@ -6,7 +6,7 @@ import {unitLevel,forceLevelGroups} from '../dist/unit-levels.js';
 test('Report outcomes and technology labels distinguish real snapshots and unknown history',()=>{
  assert.equal(reportStatus({event:'capture',details:{captured:true}}),'conquest');assert.equal(reportStatus({event:'capture',details:{mission:'defend'}}),'defeat');
  for(const outcome of ['combat','conquest','victory','defeat'])assert.equal(reportStatus({event:'battle',details:{outcome}}),outcome);
- assert.match(unitLevel(2),/>N2</);assert.match(unitLevel(1.5),/N1,5 moy\./);assert.match(unitLevel(null),/N\?/);
+ assert.match(unitLevel(2),/>N2</);assert.match(unitLevel(1.5),/N\? historique/);assert.match(unitLevel(null),/N\?/);
  const html=reportCard({event:'battle',planet:'<Signal>',occurred_at:'2026-11-27T00:00:00Z',details:{outcome:'combat',sides:{own:{before:{scouts:5,units:[{unit:'scouts',race:'elys',level:2,quantity:5}]},after:{scouts:3,units:[{unit:'scouts',race:'elys',level:2,quantity:3}]}}}}});
  assert.match(html,/N2/);assert.match(html,/Combat/);assert.match(html,/−2/);assert.doesNotMatch(html,/<Signal>/);
  assert.equal(forceLevelGroups([{race:'elys',ship_tech:1,scouts:2},{race:'elys',ship_tech:2,scouts:3}],'scouts','elys').length,2);
@@ -19,7 +19,7 @@ test('A thirteenth conquest succeeds, with private observed technology levels an
  await q('update public.planets set owner_empire_id=$1 where id in(select id from public.planets where owner_empire_id is null order by serial limit 11)',[empires[0]]);
  assert.equal(Number((await q('select count(*) n from public.planets where owner_empire_id=$1',[empires[0]])).n),12);
  await q("update public.planets set soldiers=1,scouts=0,bombers=0,fighters=0,garrison_ready_at='-infinity' where id=$1",[homes[1].id]);
- await q("update public.planets set ship_tech=2,army_tech=3 where id=$1",[homes[0].id]);
+ await q("update public.planets set ship_tech=2,army_tech=3 where id=$1",[homes[0].id]);await q("insert into private.research_levels values($1,'ships_elys',2,now()),($1,'armies_elys',3,now())",[empires[0]]);
  await q("insert into private.fleets(empire_id,season_id,name,race,supply_planet,planet_id,origin_id,mission,fighters,ground_soldiers,ground_ready_at) values($1,$2,'Veterans','elys',$3,$4,$3,'attack',5,10000,'-infinity')",[empires[0],homes[0].season_id,homes[0].id,homes[1].id]);
  await q('select private.resolve_battle($1,now())',[homes[1].id]);
  assert.equal((await q('select owner_empire_id from public.planets where id=$1',[homes[1].id])).owner_empire_id,empires[0]);
